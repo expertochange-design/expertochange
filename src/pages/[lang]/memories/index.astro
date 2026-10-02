@@ -1,0 +1,17 @@
+---
+import Base from '../../../layouts/Base.astro';
+import EntryList from '../../../components/EntryList.astro';
+import { langs, t, type Lang } from '../../../i18n/ui';
+import { getEntries } from '../../../lib/content';
+
+export const getStaticPaths = () => langs.map((lang) => ({ params: { lang } }));
+
+const lang = Astro.params.lang as Lang;
+const entries = await getEntries('memories', lang);
+---
+
+<Base lang={lang} title={t(lang, 'memories.title')} altPath="/memories/">
+  <h1>{t(lang, 'memories.title')}</h1>
+  <p class="lead">{t(lang, 'memories.lead')}</p>
+  <EntryList lang={lang} section="memories" entries={entries} />
+</Base>

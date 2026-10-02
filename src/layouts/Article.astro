@@ -1,0 +1,41 @@
+---
+import Base from './Base.astro';
+import { formatDate, otherLang, t, type Lang, type UIKey } from '../i18n/ui';
+import type { Section } from '../lib/content';
+
+interface Props {
+  lang: Lang;
+  section: Section;
+  slug: string;
+  title: string;
+  summary: string;
+  date: Date;
+  hasTranslation: boolean;
+}
+
+const { lang, section, slug, title, summary, date, hasTranslation } = Astro.props;
+const altPath = hasTranslation ? `/${section}/${slug}/` : null;
+const sectionTitle = t(lang, `${section}.title` as UIKey);
+---
+
+<Base lang={lang} title={title} description={summary} altPath={altPath}>
+  <article>
+    <p class="meta">
+      <a href={`/${lang}/${section}/`}>{t(lang, 'common.back')} {sectionTitle}</a>
+    </p>
+    <h1>{title}</h1>
+    <p class="meta">
+      <time datetime={date.toISOString().slice(0, 10)}>{formatDate(lang, date)}</time>
+      {hasTranslation && (
+        <>
+          {' · '}
+          <a href={`/${otherLang(lang)}${altPath}`} lang={otherLang(lang)}>{t(lang, 'common.otherLang')}</a>
+        </>
+      )}
+    </p>
+    <slot name="before" />
+    <div class="prose">
+      <slot />
+    </div>
+  </article>
+</Base>

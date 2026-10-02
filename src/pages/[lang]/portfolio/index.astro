@@ -1,0 +1,17 @@
+---
+import Base from '../../../layouts/Base.astro';
+import EntryList from '../../../components/EntryList.astro';
+import { langs, t, type Lang } from '../../../i18n/ui';
+import { getEntries } from '../../../lib/content';
+
+export const getStaticPaths = () => langs.map((lang) => ({ params: { lang } }));
+
+const lang = Astro.params.lang as Lang;
+const entries = await getEntries('portfolio', lang);
+---
+
+<Base lang={lang} title={t(lang, 'portfolio.title')} altPath="/portfolio/">
+  <h1>{t(lang, 'portfolio.title')}</h1>
+  <p class="lead">{t(lang, 'portfolio.lead')}</p>
+  <EntryList lang={lang} section="portfolio" entries={entries} kicker={(e) => `${e.data.role} · ${e.data.organization} · ${e.data.period}`} />
+</Base>

@@ -1,0 +1,24 @@
+---
+// The root sends Farsi-language browsers to /fa/ and everyone else to /en/.
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>expertochange</title>
+    <link rel="alternate" hreflang="en" href="/en/" />
+    <link rel="alternate" hreflang="fa" href="/fa/" />
+    <noscript><meta http-equiv="refresh" content="0; url=/en/" /></noscript>
+    <script is:inline>
+      var fa = (navigator.languages || [navigator.language]).some(function (l) {
+        return /^fa\b/i.test(l);
+      });
+      location.replace(fa ? '/fa/' : '/en/');
+    </script>
+  </head>
+  <body>
+    <p><a href="/en/">English</a> · <a href="/fa/" lang="fa">فارسی</a></p>
+  </body>
+</html>

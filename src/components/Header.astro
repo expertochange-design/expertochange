@@ -1,0 +1,83 @@
+---
+import { languages, otherLang, t, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  switchHref: string;
+}
+
+const { lang, switchHref } = Astro.props;
+const current = Astro.url.pathname;
+const links = [
+  { href: `/${lang}/portfolio/`, label: t(lang, 'nav.portfolio') },
+  { href: `/${lang}/books/`, label: t(lang, 'nav.books') },
+  { href: `/${lang}/memories/`, label: t(lang, 'nav.memories') },
+  { href: `/${lang}/about/`, label: t(lang, 'nav.about') },
+];
+const alt = otherLang(lang);
+---
+
+<header>
+  <div class="bar">
+    <a class="brand" href={`/${lang}/`} dir="ltr">expertochange</a>
+    <nav aria-label="Main">
+      {links.map((l) => (
+        <a href={l.href} aria-current={current.startsWith(l.href) ? 'page' : undefined}>
+          {l.label}
+        </a>
+      ))}
+      <a class="switch" href={switchHref} hreflang={alt} lang={alt}>
+        {languages[alt]}
+      </a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  header {
+    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .bar {
+    max-width: var(--max);
+    margin-inline: auto;
+    padding: 0.9rem 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand {
+    font-family: var(--font-latin);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.1rem;
+    font-size: 0.95rem;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  nav a:hover,
+  nav a[aria-current='page'] {
+    color: var(--text);
+  }
+  .switch {
+    padding: 0 0.6rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+  }
+  .switch:lang(fa) {
+    font-family: var(--font-fa);
+  }
+  .switch:lang(en) {
+    font-family: var(--font-latin);
+  }
+</style>

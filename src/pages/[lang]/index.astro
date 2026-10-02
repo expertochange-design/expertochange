@@ -1,0 +1,28 @@
+---
+import Base from '../../layouts/Base.astro';
+import { langs, t, type Lang } from '../../i18n/ui';
+
+export const getStaticPaths = () => langs.map((lang) => ({ params: { lang } }));
+
+const lang = Astro.params.lang as Lang;
+const sections = [
+  { href: `/${lang}/portfolio/`, title: t(lang, 'portfolio.title'), text: t(lang, 'home.portfolio') },
+  { href: `/${lang}/books/`, title: t(lang, 'books.title'), text: t(lang, 'home.books') },
+  { href: `/${lang}/memories/`, title: t(lang, 'memories.title'), text: t(lang, 'home.memories') },
+];
+---
+
+<Base lang={lang} altPath="/">
+  <h1>{t(lang, 'site.tagline')}</h1>
+  <p class="lead">{t(lang, 'home.intro')}</p>
+  <ul class="cards">
+    {sections.map((s) => (
+      <li>
+        <a class="card" href={s.href}>
+          <h2>{s.title}</h2>
+          <p>{s.text}</p>
+        </a>
+      </li>
+    ))}
+  </ul>
+</Base>

@@ -1,0 +1,34 @@
+---
+import Base from '../../layouts/Base.astro';
+import { langs, t, type Lang } from '../../i18n/ui';
+
+export const getStaticPaths = () => langs.map((lang) => ({ params: { lang } }));
+
+const lang = Astro.params.lang as Lang;
+const email = 'expertochange@gmail.com';
+---
+
+<Base lang={lang} title={t(lang, 'about.title')} altPath="/about/">
+  <h1>{t(lang, 'about.title')}</h1>
+  {lang === 'en' ? (
+    <>
+      <p class="lead">[Placeholder: two or three sentences on who you are and what you do.]</p>
+      <p>
+        I started expertochange to share three things: what I have learned in my career, the books that changed how I
+        think, and the experiences that shaped me. Everything here is written in English and Farsi, so the Persian
+        community can read it in its own language.
+      </p>
+    </>
+  ) : (
+    <>
+      <p class="lead">[جای‌نگهدار: دو یا سه جمله درباره اینکه چه کسی هستید و چه کاری انجام می‌دهید.]</p>
+      <p>
+        expertochange را راه انداختم تا سه چیز را به اشتراک بگذارم: آنچه در مسیر کاری‌ام آموختم، کتاب‌هایی که نگاهم را
+        تغییر دادند و تجربه‌هایی که مرا ساختند. همه مطالب این سایت به انگلیسی و فارسی نوشته می‌شود تا جامعه فارسی‌زبان هم
+        بتواند آن‌ها را به زبان خودش بخواند.
+      </p>
+    </>
+  )}
+  <h2>{t(lang, 'about.contact')}</h2>
+  <p><a href={`mailto:${email}`} dir="ltr">{email}</a></p>
+</Base>

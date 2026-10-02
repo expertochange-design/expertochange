@@ -1,0 +1,31 @@
+---
+import { formatDate, t, type Lang } from '../i18n/ui';
+import { slugOf, type Section } from '../lib/content';
+
+interface Props {
+  lang: Lang;
+  section: Section;
+  entries: { id: string; data: { title: string; summary: string; date: Date } }[];
+  // Optional short line shown above each title, such as a role or an author.
+  kicker?: (entry: any) => string;
+}
+
+const { lang, section, entries, kicker } = Astro.props;
+---
+
+{entries.length === 0 ? (
+  <p class="meta">{t(lang, 'common.empty')}</p>
+) : (
+  <ul class="cards">
+    {entries.map((e) => (
+      <li>
+        <a class="card" href={`/${lang}/${section}/${slugOf(e.id)}/`}>
+          {kicker && <span class="meta">{kicker(e)}</span>}
+          <h2>{e.data.title}</h2>
+          <p>{e.data.summary}</p>
+          <p class="meta">{formatDate(lang, e.data.date)}</p>
+        </a>
+      </li>
+    ))}
+  </ul>
+)}
