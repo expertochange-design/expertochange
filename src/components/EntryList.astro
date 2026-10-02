@@ -1,4 +1,5 @@
 ---
+import { href } from '../lib/url';
 import { formatDate, t, type Lang } from '../i18n/ui';
 import { slugOf, type Section } from '../lib/content';
 
@@ -19,7 +20,7 @@ const { lang, section, entries, kicker } = Astro.props;
   <ul class="cards">
     {entries.map((e) => (
       <li>
-        <a class="card" href={`/${lang}/${section}/${slugOf(e.id)}/`}>
+        <a class="card" href={href(`/${lang}/${section}/${slugOf(e.id)}/`)}>
           {kicker && <span class="meta">{kicker(e)}</span>}
           <h2>{e.data.title}</h2>
           <p>{e.data.summary}</p>

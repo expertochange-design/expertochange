@@ -1,4 +1,5 @@
 ---
+import { href, sitePath } from '../lib/url';
 import '@fontsource-variable/inter';
 import '@fontsource/vazirmatn/400.css';
 import '@fontsource/vazirmatn/700.css';
@@ -17,9 +18,9 @@ interface Props {
 
 const { lang, title, description = t(lang, 'site.tagline'), altPath = null } = Astro.props;
 const pageTitle = title ? `${title} · ${t(lang, 'site.name')}` : t(lang, 'site.name');
-const path = Astro.url.pathname.replace(/^\/(en|fa)/, '');
+const path = sitePath(Astro.url.pathname).replace(/^\/(en|fa)/, '');
 const alt = otherLang(lang);
-const switchHref = `/${alt}${altPath ?? '/'}`;
+const switchHref = href(`/${alt}${altPath ?? '/'}`);
 ---
 
 <!doctype html>
@@ -29,11 +30,11 @@ const switchHref = `/${alt}${altPath ?? '/'}`;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href={href('/favicon.svg')} type="image/svg+xml" />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
-    <link rel="alternate" hreflang={lang} href={new URL(`/${lang}${path}`, Astro.site)} />
-    {altPath !== null && <link rel="alternate" hreflang={alt} href={new URL(`/${alt}${altPath}`, Astro.site)} />}
-    <link rel="alternate" hreflang="x-default" href={new URL(`/en${lang === 'en' ? path : altPath ?? '/'}`, Astro.site)} />
+    <link rel="alternate" hreflang={lang} href={new URL(href(`/${lang}${path}`), Astro.site)} />
+    {altPath !== null && <link rel="alternate" hreflang={alt} href={new URL(href(`/${alt}${altPath}`), Astro.site)} />}
+    <link rel="alternate" hreflang="x-default" href={new URL(href(`/en${lang === 'en' ? path : altPath ?? '/'}`), Astro.site)} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:locale" content={lang === 'fa' ? 'fa_IR' : 'en_US'} />

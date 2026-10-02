@@ -1,5 +1,9 @@
 ---
 // The root sends Farsi-language browsers to /fa/ and everyone else to /en/.
+import { href } from '../lib/url';
+
+const en = href('/en/');
+const fa = href('/fa/');
 ---
 
 <!doctype html>
@@ -8,17 +12,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>expertochange</title>
-    <link rel="alternate" hreflang="en" href="/en/" />
-    <link rel="alternate" hreflang="fa" href="/fa/" />
-    <noscript><meta http-equiv="refresh" content="0; url=/en/" /></noscript>
-    <script is:inline>
-      var fa = (navigator.languages || [navigator.language]).some(function (l) {
+    <link rel="alternate" hreflang="en" href={en} />
+    <link rel="alternate" hreflang="fa" href={fa} />
+    <noscript><meta http-equiv="refresh" content={`0; url=${en}`} /></noscript>
+    <script is:inline define:vars={{ en, fa }}>
+      var isFa = (navigator.languages || [navigator.language]).some(function (l) {
         return /^fa\b/i.test(l);
       });
-      location.replace(fa ? '/fa/' : '/en/');
+      location.replace(isFa ? fa : en);
     </script>
   </head>
   <body>
-    <p><a href="/en/">English</a> · <a href="/fa/" lang="fa">فارسی</a></p>
+    <p><a href={en}>English</a> · <a href={fa} lang="fa">فارسی</a></p>
   </body>
 </html>

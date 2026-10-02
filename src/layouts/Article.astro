@@ -1,4 +1,5 @@
 ---
+import { href } from '../lib/url';
 import Base from './Base.astro';
 import { formatDate, otherLang, t, type Lang, type UIKey } from '../i18n/ui';
 import type { Section } from '../lib/content';
@@ -21,7 +22,7 @@ const sectionTitle = t(lang, `${section}.title` as UIKey);
 <Base lang={lang} title={title} description={summary} altPath={altPath}>
   <article>
     <p class="meta">
-      <a href={`/${lang}/${section}/`}>{t(lang, 'common.back')} {sectionTitle}</a>
+      <a href={href(`/${lang}/${section}/`)}>{t(lang, 'common.back')} {sectionTitle}</a>
     </p>
     <h1>{title}</h1>
     <p class="meta">
@@ -29,7 +30,7 @@ const sectionTitle = t(lang, `${section}.title` as UIKey);
       {hasTranslation && (
         <>
           {' · '}
-          <a href={`/${otherLang(lang)}${altPath}`} lang={otherLang(lang)}>{t(lang, 'common.otherLang')}</a>
+          <a href={href(`/${otherLang(lang)}${altPath}`)} lang={otherLang(lang)}>{t(lang, 'common.otherLang')}</a>
         </>
       )}
     </p>
