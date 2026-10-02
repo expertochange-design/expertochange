@@ -32,4 +32,8 @@ English pages live at `/en/...` and Farsi pages at `/fa/...`. Farsi pages are ri
 
 ## Hosting
 
-The site builds to static files, so it can be hosted free on Netlify or Cloudflare Pages: connect the repository, use `npm run build` as the build command and `dist` as the output folder.
+The site is published with GitHub Pages by `.github/workflows/deploy.yml` on every push to `main`. The repository must be public (or on a paid GitHub plan), and **Settings > Pages > Source** must be set to **GitHub Actions**.
+
+Until a custom domain is set, the site lives at `https://expertochange-design.github.io/expertochange/`. To use expertochange.com, add it under **Settings > Pages > Custom domain** and point the domain's DNS at GitHub Pages. The workflow picks up the new address on the next push, so links need no changes.
+
+Use the `href()` helper in `src/lib/url.ts` for internal links, so they work at both addresses.

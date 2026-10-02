@@ -1,4 +1,5 @@
 ---
+import { href } from '../../lib/url';
 import Base from '../../layouts/Base.astro';
 import { langs, t, type Lang } from '../../i18n/ui';
 
@@ -6,9 +7,9 @@ export const getStaticPaths = () => langs.map((lang) => ({ params: { lang } }));
 
 const lang = Astro.params.lang as Lang;
 const sections = [
-  { href: `/${lang}/portfolio/`, title: t(lang, 'portfolio.title'), text: t(lang, 'home.portfolio') },
-  { href: `/${lang}/books/`, title: t(lang, 'books.title'), text: t(lang, 'home.books') },
-  { href: `/${lang}/memories/`, title: t(lang, 'memories.title'), text: t(lang, 'home.memories') },
+  { href: href(`/${lang}/portfolio/`), title: t(lang, 'portfolio.title'), text: t(lang, 'home.portfolio') },
+  { href: href(`/${lang}/books/`), title: t(lang, 'books.title'), text: t(lang, 'home.books') },
+  { href: href(`/${lang}/memories/`), title: t(lang, 'memories.title'), text: t(lang, 'home.memories') },
 ];
 ---
 
