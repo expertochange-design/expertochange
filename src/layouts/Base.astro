@@ -8,6 +8,7 @@ import '@fontsource/vazirmatn/400.css';
 import '@fontsource/vazirmatn/700.css';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
+import LogoMark from '../components/LogoMark.astro';
 import { dir, langs, otherLang, t, type Lang } from '../i18n/ui';
 
 interface Props {
@@ -72,7 +73,10 @@ const goatcounter = import.meta.env.PUBLIC_GOATCOUNTER_CODE;
     </main>
     <footer>
       <div class="inner">
-        <a class="mark" href={href(`/${lang}/`)} dir="ltr">expertochange</a>
+        <a class="brand" href={href(`/${lang}/`)} dir="ltr" aria-label="expertochange">
+          <LogoMark class="logo" />
+          <span>expertochange<sup class="tm">™</sup></span>
+        </a>
         <p class="meta">
           © {new Intl.NumberFormat(lang === 'fa' ? 'fa-IR' : 'en-US', { useGrouping: false }).format(new Date().getFullYear())} · {t(lang, 'footer.rights')}
         </p>
@@ -94,15 +98,31 @@ const goatcounter = import.meta.env.PUBLIC_GOATCOUNTER_CODE;
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem 2rem;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
   }
-  .mark {
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     font-family: var(--serif);
     font-size: 1.05rem;
     font-style: italic;
     color: var(--ink);
     text-decoration: none;
+  }
+  .brand :global(.logo) {
+    width: 1.9rem;
+    height: 1.9rem;
+    color: var(--accent);
+    flex: none;
+  }
+  .tm {
+    font-family: var(--sans);
+    font-style: normal;
+    font-size: 0.55em;
+    margin-inline-start: 0.1em;
+    color: var(--muted);
   }
   .inner p {
     margin: 0;
