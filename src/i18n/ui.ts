@@ -46,6 +46,17 @@ export const ui = {
     'search.placeholder': 'Search by keyword',
     'search.none': 'Nothing found. Try another word.',
     'search.close': 'Close',
+    'post.share': 'Share',
+    'share.title': 'Share this piece',
+    'share.notice':
+      'You are welcome to share the link. The writing on this site is my own work and is protected by copyright: please do not copy, translate or republish it without my written permission. Short quotes are fine with credit and a link back.',
+    'share.copy': 'Copy link',
+    'share.copied': 'Link copied',
+    'share.more': 'More options',
+    'share.email': 'Email',
+    'share.close': 'Close',
+    'share.credit': 'Source',
+    'share.creditNote': 'Please credit the author and link to the source when quoting.',
   },
   fa: {
     'site.name': 'expertochange',
@@ -88,6 +99,17 @@ export const ui = {
     'search.placeholder': 'جستجو با کلمه کلیدی',
     'search.none': 'چیزی پیدا نشد. کلمه دیگری را امتحان کنید.',
     'search.close': 'بستن',
+    'post.share': 'اشتراک‌گذاری',
+    'share.title': 'اشتراک‌گذاری این نوشته',
+    'share.notice':
+      'از اشتراک‌گذاری پیوند این نوشته خوشحال می‌شوم. نوشته‌های این سایت کار خود من است و حق نشر آن محفوظ است: لطفاً بدون اجازه کتبی من آن‌ها را کپی، ترجمه یا بازنشر نکنید. نقل‌قول کوتاه با ذکر منبع و پیوند به نوشته اشکالی ندارد.',
+    'share.copy': 'کپی پیوند',
+    'share.copied': 'پیوند کپی شد',
+    'share.more': 'گزینه‌های دیگر',
+    'share.email': 'ایمیل',
+    'share.close': 'بستن',
+    'share.credit': 'منبع',
+    'share.creditNote': 'لطفاً هنگام نقل‌قول، نام نویسنده و پیوند منبع را ذکر کنید.',
   },
 } as const;
 

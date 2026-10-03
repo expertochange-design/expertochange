@@ -1,0 +1,200 @@
+---
+// Share for one post, with a copyright reminder in the share box and a credit
+// line added to text copied from the post.
+import { t, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  title: string;
+}
+
+const { lang, title } = Astro.props;
+---
+
+<div class="post-actions" data-pagefind-ignore>
+  <button type="button" class="action share-open" aria-haspopup="dialog">
+    <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 15V4M8 8l4-4 4 4M5 13v6h14v-6"></path>
+    </svg>
+    {t(lang, 'post.share')}
+  </button>
+</div>
+
+<dialog class="share-dialog" aria-labelledby="share-title" data-title={title} data-copied={t(lang, 'share.copied')} data-copy={t(lang, 'share.copy')}>
+  <div class="share-head">
+    <h2 id="share-title">{t(lang, 'share.title')}</h2>
+    <form method="dialog"><button class="share-close" aria-label={t(lang, 'share.close')}>✕</button></form>
+  </div>
+  <p class="share-notice">
+    <span class="share-c" aria-hidden="true">©</span>
+    <span>{t(lang, 'share.notice')}</span>
+  </p>
+  <div class="share-links">
+    <button type="button" class="share-copy">{t(lang, 'share.copy')}</button>
+    <a data-share="telegram" target="_blank" rel="noopener">Telegram</a>
+    <a data-share="whatsapp" target="_blank" rel="noopener">WhatsApp</a>
+    <a data-share="linkedin" target="_blank" rel="noopener">LinkedIn</a>
+    <a data-share="x" target="_blank" rel="noopener">X</a>
+    <a data-share="email">{t(lang, 'share.email')}</a>
+    <button type="button" class="share-native" hidden>{t(lang, 'share.more')}</button>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('.share-dialog');
+  if (dialog) {
+    const url = location.href.split('#')[0];
+    const title = dialog.dataset.title!;
+    const u = encodeURIComponent(url);
+    const tu = encodeURIComponent(`${title}\n${url}`);
+    const targets: Record<string, string> = {
+      telegram: `https://t.me/share/url?url=${u}&text=${encodeURIComponent(title)}`,
+      whatsapp: `https://wa.me/?text=${tu}`,
+      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${u}`,
+      x: `https://x.com/intent/post?url=${u}&text=${encodeURIComponent(title)}`,
+      email: `mailto:?subject=${encodeURIComponent(title)}&body=${u}`,
+    };
+    for (const a of dialog.querySelectorAll<HTMLAnchorElement>('[data-share]')) a.href = targets[a.dataset.share!];
+
+    document.querySelector('.share-open')?.addEventListener('click', () => dialog.showModal());
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+
+    const copy = dialog.querySelector<HTMLButtonElement>('.share-copy')!;
+    copy.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(url);
+        copy.textContent = dialog.dataset.copied!;
+        setTimeout(() => (copy.textContent = dialog.dataset.copy!), 2000);
+      } catch {}
+    });
+
+    // The phone's own share sheet, where the browser has one.
+    const native = dialog.querySelector<HTMLButtonElement>('.share-native')!;
+    if (navigator.share) {
+      native.hidden = false;
+      native.addEventListener('click', () => navigator.share({ title, url }).catch(() => {}));
+    }
+  }
+
+  // Text copied from a post carries a credit line and a link back.
+  const article = document.querySelector('article');
+  const credit = document.querySelector<HTMLElement>('[data-credit]');
+  article?.addEventListener('copy', (e) => {
+    const text = document.getSelection()?.toString() ?? '';
+    if (!text.trim() || !e.clipboardData || !credit) return;
+    const url = location.href.split('#')[0];
+    e.clipboardData.setData('text/plain', `${text}\n\n${credit.dataset.label}: ${url}\n© expertochange. ${credit.dataset.note}`);
+    e.preventDefault();
+  });
+</script>
+
+<span hidden data-credit data-label={t(lang, 'share.credit')} data-note={t(lang, 'share.creditNote')}></span>
+
+<style>
+  .post-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    margin-block-start: 3rem;
+    padding-block-start: 1.5rem;
+    border-top: 1px solid var(--rule);
+  }
+  .action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0;
+    border: 0;
+    background: none;
+    color: var(--ink-soft);
+    font: inherit;
+    font-size: 0.95rem;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .action:hover,
+  .action:focus-visible {
+    color: var(--accent);
+  }
+  .share-dialog {
+    width: min(30rem, calc(100vw - 2rem));
+    padding: 1.25rem 1.5rem 1.5rem;
+    border: 1px solid var(--rule-strong);
+    border-radius: 3px;
+    background: var(--paper-raised);
+    color: var(--ink);
+    box-shadow: 0 1.5rem 3rem rgb(0 0 0 / 0.12);
+  }
+  .share-dialog::backdrop {
+    background: rgb(31 28 24 / 0.25);
+  }
+  .share-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .share-head h2 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+  .share-close {
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    cursor: pointer;
+  }
+  .share-notice {
+    display: flex;
+    gap: 0.75rem;
+    margin-block: 1rem 1.25rem;
+    padding: 0.9rem 1rem;
+    border-inline-start: 2px solid var(--accent);
+    background: var(--paper);
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .share-c {
+    color: var(--accent);
+    font-size: 1.1rem;
+    line-height: 1.3;
+  }
+  .share-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .share-links :is(a, button) {
+    padding: 0.4rem 0.85rem;
+    border: 1px solid var(--rule-strong);
+    border-radius: 2rem;
+    background: none;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.9rem;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .share-links :is(a, button):hover,
+  .share-links :is(a, button):focus-visible {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .share-links .share-copy {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--paper);
+  }
+  .share-links .share-copy:hover {
+    color: var(--paper);
+    background: var(--accent-hover);
+  }
+  .share-links [hidden] {
+    display: none;
+  }
+</style>

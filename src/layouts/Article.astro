@@ -1,5 +1,6 @@
 ---
 import Base from './Base.astro';
+import PostActions from '../components/PostActions.astro';
 import { href } from '../lib/url';
 import { formatDate, otherLang, t, type Lang, type UIKey } from '../i18n/ui';
 import type { Section } from '../lib/content';
@@ -37,10 +38,14 @@ const sectionTitle = t(lang, `${section}.title` as UIKey);
       <slot />
     </div>
   </article>
+  <div class="after">
+    <PostActions lang={lang} title={title} />
+  </div>
 </Base>
 
 <style>
-  article {
+  article,
+  .after {
     max-width: var(--measure);
     margin-inline: auto;
   }
