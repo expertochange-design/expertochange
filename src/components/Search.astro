@@ -1,0 +1,230 @@
+---
+// A small search button that opens a search box over the page.
+// The index is built after `astro build` by Pagefind (see package.json), one per language,
+// and only covers the pieces themselves (pages marked with data-pagefind-body).
+import { t, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<button type="button" class="search-open" aria-label={t(lang, 'search.open')} title={t(lang, 'search.open')} aria-haspopup="dialog">
+  <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+    <circle cx="10.5" cy="10.5" r="6.5"></circle>
+    <path d="M15.5 15.5 20 20"></path>
+  </svg>
+</button>
+
+<dialog class="search-dialog" aria-label={t(lang, 'search.label')} data-base={import.meta.env.BASE_URL} data-none={t(lang, 'search.none')}>
+  <form method="dialog" class="search-form" role="search">
+    <input type="search" name="q" placeholder={t(lang, 'search.placeholder')} aria-label={t(lang, 'search.label')} autocomplete="off" />
+    <button type="submit" class="search-close" aria-label={t(lang, 'search.close')}>✕</button>
+  </form>
+  <ol class="search-results" aria-live="polite"></ol>
+</dialog>
+
+<script>
+  type Result = { url: string; excerpt: string; meta: { title?: string; section?: string } };
+  type Pagefind = {
+    options: (o: object) => Promise<void>;
+    debouncedSearch: (q: string, o?: object, ms?: number) => Promise<{ results: { data: () => Promise<Result> }[] } | null>;
+  };
+
+  const dialog = document.querySelector<HTMLDialogElement>('.search-dialog');
+  const open = document.querySelector<HTMLButtonElement>('.search-open');
+  const input = dialog?.querySelector<HTMLInputElement>('input');
+  const list = dialog?.querySelector<HTMLOListElement>('.search-results');
+  let pagefind: Promise<Pagefind> | undefined;
+  // Pagefind is generated after the build, so load it at runtime, out of the bundler's reach.
+  const importAtRuntime = new Function('url', 'return import(url)') as (url: string) => Promise<Pagefind>;
+
+  const load = () => {
+    const base = dialog!.dataset.base!.replace(/\/?$/, '/');
+    pagefind ??= importAtRuntime(`${base}pagefind/pagefind.js`).then(async (pf: Pagefind) => {
+      await pf.options({ baseUrl: base });
+      return pf;
+    });
+    return pagefind;
+  };
+
+  const render = (results: Result[], query: string) => {
+    if (!list) return;
+    list.replaceChildren();
+    if (!query) return;
+    if (!results.length) {
+      const li = document.createElement('li');
+      li.className = 'search-none';
+      li.textContent = dialog!.dataset.none!;
+      list.append(li);
+      return;
+    }
+    for (const r of results) {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = r.url;
+      const section = document.createElement('span');
+      section.className = 'search-section';
+      section.textContent = r.meta.section ?? '';
+      const title = document.createElement('span');
+      title.className = 'search-title';
+      title.textContent = r.meta.title ?? r.url;
+      const excerpt = document.createElement('span');
+      excerpt.className = 'search-excerpt';
+      // Pagefind escapes the page text and only adds <mark> around matches.
+      excerpt.innerHTML = r.excerpt;
+      a.append(section, title, excerpt);
+      li.append(a);
+      list.append(li);
+    }
+  };
+
+  open?.addEventListener('click', () => {
+    dialog?.showModal();
+    input?.focus();
+    load();
+  });
+
+  input?.addEventListener('input', async () => {
+    const query = input.value.trim();
+    if (!query) return render([], '');
+    const search = await (await load()).debouncedSearch(query, {}, 200);
+    if (search === null) return; // superseded by a newer keystroke
+    render(await Promise.all(search.results.slice(0, 8).map((r) => r.data())), query);
+  });
+
+  // Close when clicking the backdrop.
+  dialog?.addEventListener('click', (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+</script>
+
+<style>
+  .search-open {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    color: var(--ink-soft);
+    cursor: pointer;
+    align-self: center;
+  }
+  .search-open:hover,
+  .search-open:focus-visible {
+    color: var(--accent);
+    background: var(--rule);
+  }
+  .search-dialog {
+    width: min(36rem, calc(100vw - 2rem));
+    margin-block-start: 12vh;
+    padding: 0;
+    border: 1px solid var(--rule-strong);
+    border-radius: 3px;
+    background: var(--paper-raised);
+    color: var(--ink);
+    box-shadow: 0 1.5rem 3rem rgb(0 0 0 / 0.12);
+    /* It sits inside the nav, so reset the nav's small caps type. */
+    font-family: var(--serif);
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  :global(html[lang='fa']) .search-dialog {
+    font-family: var(--farsi);
+  }
+  .search-form input::-webkit-search-cancel-button {
+    display: none;
+  }
+  .search-dialog::backdrop {
+    background: rgb(31 28 24 / 0.25);
+  }
+  .search-form {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.6rem 0.4rem 1rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .search-form input {
+    flex: 1;
+    min-width: 0;
+    padding-block: 0.6rem;
+    border: 0;
+    background: none;
+    color: var(--ink);
+    font: inherit;
+    font-size: 1.1rem;
+    outline: none;
+  }
+  .search-form input::placeholder {
+    color: var(--muted);
+  }
+  .search-close {
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    cursor: pointer;
+  }
+  .search-dialog :global(.search-results) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+  .search-dialog :global(.search-results:empty) {
+    display: none;
+  }
+  .search-dialog :global(.search-results li + li) {
+    border-top: 1px solid var(--rule);
+  }
+  .search-dialog :global(.search-results a) {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.9rem 1rem;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .search-dialog :global(.search-results a:hover),
+  .search-dialog :global(.search-results a:focus-visible) {
+    background: var(--paper);
+  }
+  .search-dialog :global(.search-section) {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .search-dialog :global(.search-title) {
+    font-size: 1.1rem;
+  }
+  .search-dialog :global(.search-excerpt) {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+  .search-dialog :global(.search-excerpt mark) {
+    background: none;
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .search-dialog :global(.search-none) {
+    padding: 0.9rem 1rem;
+    color: var(--muted);
+  }
+  :global(html[lang='fa'] .search-dialog .search-section) {
+    font-family: var(--farsi);
+    font-size: 0.8rem;
+    letter-spacing: 0;
+  }
+</style>

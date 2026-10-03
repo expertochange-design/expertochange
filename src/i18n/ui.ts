@@ -37,6 +37,11 @@ export const ui = {
     'about.title': 'About',
     'about.contact': 'Get in touch',
     'footer.rights': 'All rights reserved.',
+    'search.open': 'Search',
+    'search.label': 'Search the site',
+    'search.placeholder': 'Search by keyword',
+    'search.none': 'Nothing found. Try another word.',
+    'search.close': 'Close',
   },
   fa: {
     'site.name': 'expertochange',
@@ -70,6 +75,11 @@ export const ui = {
     'about.title': 'درباره من',
     'about.contact': 'راه ارتباط',
     'footer.rights': 'همه حقوق محفوظ است.',
+    'search.open': 'جستجو',
+    'search.label': 'جستجو در سایت',
+    'search.placeholder': 'جستجو با کلمه کلیدی',
+    'search.none': 'چیزی پیدا نشد. کلمه دیگری را امتحان کنید.',
+    'search.close': 'بستن',
   },
 } as const;
 
