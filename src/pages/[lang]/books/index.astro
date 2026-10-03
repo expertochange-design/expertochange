@@ -20,6 +20,8 @@ const kicker = (e: (typeof all)[number]) =>
     e.data.author,
     stars(e.data.rating),
     e.data.series && `${formatNumber(lang, partsOf(e.data.series).length)} ${t(lang, 'books.parts')}`,
+    (e.data.series ? partsOf(e.data.series).some((o) => o.data.comingSoon) : e.data.comingSoon) &&
+      t(lang, 'books.newWeekly'),
   ]
     .filter(Boolean)
     .join(' · ');

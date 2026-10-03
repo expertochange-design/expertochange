@@ -38,24 +38,30 @@ const link = (e: (typeof parts)[number]) => href(`/${lang}/books/${slugOf(e.id)}
         </div>
       )}
     </dl>
+    {d.comingSoon && <p class="soon eyebrow">{t(lang, 'books.comingSoon')}</p>}
     {parts.length > 1 && (
       <nav class="series" aria-label={t(lang, 'books.series')}>
         <h2 class="eyebrow">{t(lang, 'books.series')}: {d.series}</h2>
         <ol>
           {parts.map((e, i) => (
-            <li>{i === here ? <span aria-current="page">{short(e.data.title)}</span> : <a href={link(e)}>{short(e.data.title)}</a>}</li>
+            <li>
+              {i === here ? <span aria-current="page">{short(e.data.title)}</span> : <a href={link(e)}>{short(e.data.title)}</a>}
+              {e.data.comingSoon && <span class="meta soon-tag">{t(lang, 'books.comingSoon')}</span>}
+            </li>
           ))}
         </ol>
       </nav>
     )}
-    <section class="takeaways">
-      <h2 class="eyebrow">{t(lang, 'books.takeaways')}</h2>
-      <ol>{d.takeaways.map((x) => <li>{x}</li>)}</ol>
-    </section>
-    <section class="recommend">
-      <h2 class="eyebrow">{t(lang, 'books.recommendedFor')}</h2>
-      <p>{d.recommendedFor}</p>
-    </section>
+    {!d.comingSoon && (
+      <section class="takeaways">
+        <h2 class="eyebrow">{t(lang, 'books.takeaways')}</h2>
+        <ol>{d.takeaways.map((x) => <li>{x}</li>)}</ol>
+      </section>
+      <section class="recommend">
+        <h2 class="eyebrow">{t(lang, 'books.recommendedFor')}</h2>
+        <p>{d.recommendedFor}</p>
+      </section>
+    )}
   </div>
   <Content />
   {next && (
@@ -83,6 +89,17 @@ const link = (e: (typeof parts)[number]) => href(`/${lang}/books/${slugOf(e.id)}
     padding: 1rem 1.25rem;
     border-inline-start: 2px solid var(--accent);
     background: var(--paper-raised);
+  }
+  .soon {
+    display: inline-block;
+    margin: 0 0 1.5rem;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+  }
+  .soon-tag {
+    margin-inline-start: 0.5rem;
+    font-size: 0.75rem;
   }
   .series .eyebrow {
     margin: 0 0 0.5rem;
