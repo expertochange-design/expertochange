@@ -36,12 +36,12 @@ export const career: Role[] = [
     from: 4,
     to: 6,
     en: {
-      title: 'SAP PP/QM and pre-sales consultant',
+      title: 'SAP PS/QM and pre-sales consultant',
       company: 'Company name',
       summary: 'Two or three sentences: what you did, what you learned, and why you moved on.',
     },
     fa: {
-      title: 'مشاور SAP PP/QM و پیش‌فروش',
+      title: 'مشاور SAP PS/QM و پیش‌فروش',
       company: 'نام شرکت',
       summary: 'دو یا سه جمله: چه کاری انجام دادید، چه آموختید و چرا به نقش بعدی رفتید.',
     },
