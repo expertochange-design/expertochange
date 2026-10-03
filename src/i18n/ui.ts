@@ -12,6 +12,7 @@ export const ui = {
     'nav.books': 'Books',
     'nav.memories': 'Memories',
     'nav.about': 'About',
+    'nav.book': 'Book a call',
     'home.intro':
       'Welcome. This is where I share my professional journey, the books that shaped me, and the experiences that taught me the most.',
     'home.portfolio': 'My career path, the work behind it, and lessons for early-career builders.',
@@ -50,6 +51,7 @@ export const ui = {
     'nav.books': 'کتاب‌ها',
     'nav.memories': 'خاطرات',
     'nav.about': 'درباره من',
+    'nav.book': 'رزرو گفتگو',
     'home.intro':
       'خوش آمدید. اینجا مسیر حرفه‌ای‌ام، کتاب‌هایی که مرا ساختند و تجربه‌هایی که بیشترین درس را به من دادند، به اشتراک می‌گذارم.',
     'home.portfolio': 'مسیر شغلی من، کارهایی که پشت آن است و درس‌هایی برای کسانی که تازه کارشان را شروع کرده‌اند.',
