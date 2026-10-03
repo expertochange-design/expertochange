@@ -34,9 +34,31 @@ const num = (i: number) => (lang === 'fa' ? formatNumber(lang, i + 1) : String(i
       </li>
     ))}
   </ul>
+  <aside class="support-note">
+    <p>{t(lang, 'home.support')}</p>
+    <a href={href(`/${lang}/support/`)}>{t(lang, 'home.supportLink')}</a>
+  </aside>
 </Base>
 
 <style>
+  .support-note {
+    margin-block-start: 5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    align-items: baseline;
+    justify-content: center;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .support-note p {
+    margin: 0;
+  }
+  .support-note a {
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+  }
   .hero {
     padding-block: 1.5rem 4rem;
     border-bottom: 1px solid var(--rule);
