@@ -23,6 +23,9 @@ const pageTitle = title ? `${title} · ${t(lang, 'site.name')}` : t(lang, 'site.
 const path = sitePath(Astro.url.pathname).replace(/^\/(en|fa)/, '');
 const alt = otherLang(lang);
 const switchHref = href(`/${alt}${altPath ?? '/'}`);
+// Visit counting (GoatCounter: no cookies, no personal data). It feeds the
+// "most popular" sort, and is only on when the site code is set at build time.
+const goatcounter = import.meta.env.PUBLIC_GOATCOUNTER_CODE;
 ---
 
 <!doctype html>
@@ -41,6 +44,9 @@ const switchHref = href(`/${alt}${altPath ?? '/'}`);
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:locale" content={lang === 'fa' ? 'fa_IR' : 'en_US'} />
+    {goatcounter && (
+      <script is:inline async data-goatcounter={`https://${goatcounter}.goatcounter.com/count`} src="https://gc.zgo.at/count.js"></script>
+    )}
   </head>
   <body>
     <Header lang={lang} switchHref={switchHref} />

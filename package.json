@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && pagefind --site dist --silent",
+    "build": "node scripts/fetch-popularity.mjs && astro build && pagefind --site dist --silent",
     "preview": "astro preview",
     "check": "astro check"
   },

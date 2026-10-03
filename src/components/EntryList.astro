@@ -2,6 +2,7 @@
 import { href } from '../lib/url';
 import { formatDate, t, type Lang } from '../i18n/ui';
 import { slugOf, type Section } from '../lib/content';
+import { visitsOf } from '../lib/popularity';
 
 interface Props {
   lang: Lang;
@@ -9,32 +10,120 @@ interface Props {
   entries: { id: string; data: { title: string; summary: string; date: Date } }[];
   // Optional short line shown under each summary, such as a role or an author.
   kicker?: (entry: any) => string;
+  // Optional 1 to 5 score; adds a "highest rated" sort.
+  rating?: (entry: any) => number;
 }
 
-const { lang, section, entries, kicker } = Astro.props;
+const { lang, section, entries, kicker, rating } = Astro.props;
+const items = entries.map((e) => {
+  const path = `/${lang}/${section}/${slugOf(e.id)}/`;
+  return { e, path, visits: visitsOf(path) };
+});
+// Newest first is how the list is built, so it reads right without JavaScript.
+const sorts = ['newest', 'popular', ...(rating ? ['rating'] : []), 'oldest', 'title'] as const;
 ---
 
 {entries.length === 0 ? (
   <p class="lead empty">{t(lang, 'common.empty')}</p>
 ) : (
-  <ul class="entries">
-    {entries.map((e) => (
-      <li>
-        <a class="entry" href={href(`/${lang}/${section}/${slugOf(e.id)}/`)}>
-          <time class="meta" datetime={e.data.date.toISOString().slice(0, 10)}>{formatDate(lang, e.data.date)}</time>
-          <span>
-            <h2>{e.data.title}</h2>
-            <p>{e.data.summary}</p>
-            {kicker && <span class="meta kicker">{kicker(e)}</span>}
-          </span>
-        </a>
-      </li>
-    ))}
-  </ul>
+  <>
+    <div class="sort" hidden>
+      <label>
+        <span class="meta">{t(lang, 'sort.label')}</span>
+        <select data-sort-for={section}>
+          {sorts.map((s) => <option value={s}>{t(lang, `sort.${s}`)}</option>)}
+        </select>
+      </label>
+    </div>
+    <ul class="entries" data-sort-list={section}>
+      {items.map(({ e, path, visits }) => (
+        <li
+          data-date={e.data.date.getTime()}
+          data-title={e.data.title}
+          data-visits={visits}
+          data-rating={rating ? rating(e) : 0}
+        >
+          <a class="entry" href={href(path)}>
+            <time class="meta" datetime={e.data.date.toISOString().slice(0, 10)}>{formatDate(lang, e.data.date)}</time>
+            <span>
+              <h2>{e.data.title}</h2>
+              <p>{e.data.summary}</p>
+              {kicker && <span class="meta kicker">{kicker(e)}</span>}
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </>
 )}
+
+<script>
+  type Li = HTMLLIElement;
+  const num = (li: Li, key: string) => Number(li.dataset[key] ?? 0);
+  const newest = (a: Li, b: Li) => num(b, 'date') - num(a, 'date');
+  // Ties (such as pieces with no visits yet) fall back to newest first.
+  const compare: Record<string, (a: Li, b: Li) => number> = {
+    newest,
+    oldest: (a, b) => -newest(a, b),
+    popular: (a, b) => num(b, 'visits') - num(a, 'visits') || newest(a, b),
+    rating: (a, b) => num(b, 'rating') - num(a, 'rating') || newest(a, b),
+    title: (a, b) => a.dataset.title!.localeCompare(b.dataset.title!, document.documentElement.lang),
+  };
+
+  for (const select of document.querySelectorAll<HTMLSelectElement>('select[data-sort-for]')) {
+    const section = select.dataset.sortFor!;
+    const list = document.querySelector<HTMLUListElement>(`[data-sort-list="${section}"]`);
+    if (!list) continue;
+    const key = `sort:${section}`;
+    const apply = () => {
+      const items = [...list.querySelectorAll<Li>(':scope > li')];
+      list.append(...items.sort(compare[select.value] ?? newest));
+    };
+    // Remember the reader's choice per section; storage can be unavailable, which is fine.
+    try {
+      const saved = localStorage.getItem(key);
+      if (saved && compare[saved]) select.value = saved;
+    } catch {}
+    select.addEventListener('change', () => {
+      apply();
+      try {
+        localStorage.setItem(key, select.value);
+      } catch {}
+    });
+    apply();
+    select.closest<HTMLElement>('.sort')!.hidden = false;
+  }
+</script>
 
 <style>
   .empty {
     padding-block: 2rem;
+  }
+  .sort {
+    display: flex;
+    justify-content: flex-end;
+    margin-block-end: 0.75rem;
+  }
+  .sort label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .sort select {
+    font: inherit;
+    font-size: 0.95rem;
+    color: var(--ink);
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--rule-strong);
+    padding: 0.2rem 0.2rem 0.2rem 0;
+    cursor: pointer;
+  }
+  .sort select:hover,
+  .sort select:focus-visible {
+    border-bottom-color: var(--accent);
+  }
+  .sort option {
+    background: var(--paper);
   }
 </style>
