@@ -104,9 +104,9 @@ export const career: Role[] = [
       summary: 'A new country, a global brand and an e-commerce warehouse run by a logistics partner. Coordinating partners, interfaces and roles across borders, I learned that integration starts with yourself.',
     },
     fa: {
-      title: 'مدیر پروژه جهانی',
+      title: 'مدیر پروژه بین‌المللی',
       company: 'یک برند بین‌المللی شناخته‌شده پوشاک و لوازم ورزشی، آلمان',
-      summary: 'کشوری تازه، برندی جهانی و انبار تجارت الکترونیکی که شریکی لجستیکی اداره‌اش می‌کرد. در هماهنگی شرکا، رابط‌ها و نقش‌ها در آن سوی مرزها آموختم که یکپارچه‌سازی از خود آدم شروع می‌شود.',
+      summary: 'کشوری تازه، برندی بین‌المللی و انبار تجارت الکترونیکی که شریکی لجستیکی اداره‌اش می‌کرد. در هماهنگی شرکا، رابط‌ها و نقش‌ها در آن سوی مرزها آموختم که یکپارچه‌سازی از خود آدم شروع می‌شود.',
     },
   },
   {
@@ -119,7 +119,7 @@ export const career: Role[] = [
       summary: 'After so much change, I returned to the craft I love. Three years deep in procurement, from SAP MM and procure-to-pay to SAP Ariba, turned breadth back into mastery.',
     },
     fa: {
-      title: 'مشاور جهانی SAP در حوزه تدارکات',
+      title: 'مشاور بین‌المللی SAP در حوزه تدارکات',
       company: 'یک تولیدکننده محصولات لوکس، آلمان',
       summary: 'پس از آن همه تغییر، به حرفه‌ای که دوستش دارم برگشتم. سه سال غرق‌شدن در تدارکات، از SAP MM و فرایند خرید تا پرداخت تا SAP Ariba، گستره را دوباره به استادی تبدیل کرد.',
     },
@@ -133,7 +133,7 @@ export const career: Role[] = [
       summary: 'Today I lead the SAP team for finance, controlling, procurement and HR, and a portfolio of about a hundred applications. The work now is shaping where that portfolio goes next, and growing the people who will take it there.',
     },
     fa: {
-      title: 'سرپرست تیم جهانی: مالی و کنترلینگ، تدارکات و منابع انسانی',
+      title: 'سرپرست تیم بین‌المللی: مالی و کنترلینگ، تدارکات و منابع انسانی',
       company: 'یک شرکت بین‌المللی، آلمان',
       summary: 'امروز تیم SAP حوزه‌های مالی، کنترلینگ، تدارکات و منابع انسانی و پورتفولیویی از حدود صد نرم‌افزار را رهبری می‌کنم. کار امروز من ترسیم آینده این پورتفولیو و پرورش آدم‌هایی است که آن را به مقصد می‌رسانند.',
     },
