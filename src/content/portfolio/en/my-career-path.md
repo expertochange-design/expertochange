@@ -3,6 +3,7 @@ title: 'My career path'
 summary: 'From SAP consultant to global team lead, one role at a time. This post grows every time I change position.'
 date: 2026-10-03
 timeline: true
+image: ../../../assets/portfolio/career-portrait.jpg
 ---
 
 ## An open map of my path
