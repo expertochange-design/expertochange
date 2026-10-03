@@ -1,7 +1,7 @@
 ---
-import { href } from '../../lib/url';
 import Base from '../../layouts/Base.astro';
-import { langs, t, type Lang } from '../../i18n/ui';
+import { href } from '../../lib/url';
+import { formatNumber, langs, t, type Lang } from '../../i18n/ui';
 
 export const getStaticPaths = () => langs.map((lang) => ({ params: { lang } }));
 
@@ -11,19 +11,50 @@ const sections = [
   { href: href(`/${lang}/books/`), title: t(lang, 'books.title'), text: t(lang, 'home.books') },
   { href: href(`/${lang}/memories/`), title: t(lang, 'memories.title'), text: t(lang, 'home.memories') },
 ];
+const num = (i: number) => (lang === 'fa' ? formatNumber(lang, i + 1) : String(i + 1).padStart(2, '0'));
 ---
 
 <Base lang={lang} altPath="/">
-  <h1>{t(lang, 'site.tagline')}</h1>
-  <p class="lead">{t(lang, 'home.intro')}</p>
-  <ul class="cards">
-    {sections.map((s) => (
+  <section class="hero">
+    <h1>{t(lang, 'site.tagline')}</h1>
+    <p class="lead">{t(lang, 'home.intro')}</p>
+  </section>
+  <ul class="entries sections">
+    {sections.map((s, i) => (
       <li>
-        <a class="card" href={s.href}>
-          <h2>{s.title}</h2>
-          <p>{s.text}</p>
+        <a class="entry" href={s.href}>
+          <span class="meta">{num(i)}</span>
+          <span>
+            <h2>{s.title}</h2>
+            <p>{s.text}</p>
+          </span>
         </a>
       </li>
     ))}
   </ul>
 </Base>
+
+<style>
+  .hero {
+    padding-block: 1.5rem 4rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero h1 {
+    max-width: 18ch;
+    margin-block-end: 1.5rem;
+  }
+  :global(html[lang='fa']) .hero h1 {
+    max-width: 22ch;
+  }
+  .sections .meta {
+    font-family: var(--serif);
+    font-size: 1rem;
+    font-style: italic;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--accent);
+  }
+  .sections h2 {
+    font-size: 1.75rem;
+  }
+</style>

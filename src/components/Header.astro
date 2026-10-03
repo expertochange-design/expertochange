@@ -36,49 +36,83 @@ const alt = otherLang(lang);
 
 <style>
   header {
-    border-bottom: 1px solid var(--line);
-    background: var(--surface);
+    padding-inline: var(--gutter);
   }
   .bar {
-    max-width: var(--max);
+    max-width: calc(var(--wide) - 2 * var(--gutter));
     margin-inline: auto;
-    padding: 0.9rem 1rem;
+    padding-block: 2rem 1.4rem;
+    border-bottom: 1px solid var(--ink);
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem 1.5rem;
-    align-items: center;
+    gap: 0.75rem 2rem;
+    align-items: baseline;
     justify-content: space-between;
   }
   .brand {
-    font-family: var(--font-latin);
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: var(--text);
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 500;
+    font-style: italic;
+    letter-spacing: -0.01em;
+    color: var(--ink);
     text-decoration: none;
   }
   nav {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.25rem 1.1rem;
+    align-items: baseline;
+    gap: 0.4rem 1.6rem;
+    font-family: var(--sans);
+    font-size: 0.74rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  :global(html[lang='fa']) nav {
+    font-family: var(--farsi);
     font-size: 0.95rem;
+    letter-spacing: 0;
   }
   nav a {
-    color: var(--muted);
+    color: var(--ink-soft);
     text-decoration: none;
+    padding-block: 0.2rem;
+    border-bottom: 1px solid transparent;
   }
-  nav a:hover,
+  nav a:hover {
+    color: var(--ink);
+  }
   nav a[aria-current='page'] {
-    color: var(--text);
+    color: var(--ink);
+    border-bottom-color: var(--accent);
   }
   .switch {
-    padding: 0 0.6rem;
-    border: 1px solid var(--line);
-    border-radius: 999px;
+    color: var(--accent);
+    padding-inline-start: 1.6rem;
+    border-inline-start: 1px solid var(--rule-strong);
+    border-bottom: 0;
   }
   .switch:lang(fa) {
-    font-family: var(--font-fa);
+    font-family: var(--farsi);
+    font-size: 0.95rem;
+    letter-spacing: 0;
+    text-transform: none;
   }
   .switch:lang(en) {
-    font-family: var(--font-latin);
+    font-family: var(--sans);
+    font-size: 0.74rem;
+    letter-spacing: 0.14em;
+  }
+  @media (max-width: 640px) {
+    .bar {
+      padding-block: 1.5rem 1rem;
+    }
+    nav {
+      gap: 0.4rem 1.1rem;
+    }
+    .switch {
+      padding-inline-start: 1.1rem;
+    }
   }
 </style>

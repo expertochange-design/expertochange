@@ -13,17 +13,67 @@ const d = entry.data;
 ---
 
 <Article lang={lang} section="books" slug={slug} title={d.title} summary={d.summary} date={d.date} hasTranslation={hasTranslation}>
-  <div slot="before" class="facts">
-    <p class="meta">{d.author}</p>
-    <p>
-      <strong>{t(lang, 'books.rating')}:</strong>{' '}
-      <span aria-hidden="true">{'★'.repeat(d.rating)}{'☆'.repeat(5 - d.rating)}</span>{' '}
-      <span>({formatNumber(lang, d.rating)} / {formatNumber(lang, 5)})</span>
-    </p>
-    <h2>{t(lang, 'books.takeaways')}</h2>
-    <ol>{d.takeaways.map((x) => <li>{x}</li>)}</ol>
-    <h2>{t(lang, 'books.recommendedFor')}</h2>
-    <p>{d.recommendedFor}</p>
+  <div slot="before">
+    <dl class="facts">
+      <div><dt class="meta">{t(lang, 'books.author')}</dt><dd>{d.author}</dd></div>
+      <div>
+        <dt class="meta">{t(lang, 'books.rating')}</dt>
+        <dd>
+          <span class="stars" aria-hidden="true">{'★'.repeat(d.rating)}<span class="off">{'★'.repeat(5 - d.rating)}</span></span>
+          <span class="sr">{formatNumber(lang, d.rating)} / {formatNumber(lang, 5)}</span>
+        </dd>
+      </div>
+    </dl>
+    <section class="takeaways">
+      <h2 class="eyebrow">{t(lang, 'books.takeaways')}</h2>
+      <ol>{d.takeaways.map((x) => <li>{x}</li>)}</ol>
+    </section>
+    <section class="recommend">
+      <h2 class="eyebrow">{t(lang, 'books.recommendedFor')}</h2>
+      <p>{d.recommendedFor}</p>
+    </section>
   </div>
   <Content />
 </Article>
+
+<style>
+  .stars {
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+  .stars .off {
+    color: var(--rule-strong);
+  }
+  .sr {
+    margin-inline-start: 0.5rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .takeaways,
+  .recommend {
+    margin-block-end: 2.5rem;
+  }
+  .takeaways .eyebrow,
+  .recommend .eyebrow {
+    margin: 0 0 0.75rem;
+  }
+  .takeaways ol {
+    margin: 0;
+    padding-inline-start: 1.4rem;
+  }
+  .takeaways li {
+    padding-block: 0.35rem;
+  }
+  .takeaways li::marker {
+    color: var(--accent);
+    font-style: italic;
+  }
+  .recommend p {
+    margin: 0;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+  :global(html[lang='fa']) .recommend p {
+    font-style: normal;
+  }
+</style>

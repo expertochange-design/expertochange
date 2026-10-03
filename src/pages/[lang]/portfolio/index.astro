@@ -11,7 +11,9 @@ const entries = await getEntries('portfolio', lang);
 ---
 
 <Base lang={lang} title={t(lang, 'portfolio.title')} altPath="/portfolio/">
-  <h1>{t(lang, 'portfolio.title')}</h1>
-  <p class="lead">{t(lang, 'portfolio.lead')}</p>
+  <header class="page-head">
+    <h1>{t(lang, 'portfolio.title')}</h1>
+    <p class="lead">{t(lang, 'portfolio.lead')}</p>
+  </header>
   <EntryList lang={lang} section="portfolio" entries={entries} kicker={(e) => `${e.data.role} · ${e.data.organization} · ${e.data.period}`} />
 </Base>

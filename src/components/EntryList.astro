@@ -7,7 +7,7 @@ interface Props {
   lang: Lang;
   section: Section;
   entries: { id: string; data: { title: string; summary: string; date: Date } }[];
-  // Optional short line shown above each title, such as a role or an author.
+  // Optional short line shown under each summary, such as a role or an author.
   kicker?: (entry: any) => string;
 }
 
@@ -15,18 +15,26 @@ const { lang, section, entries, kicker } = Astro.props;
 ---
 
 {entries.length === 0 ? (
-  <p class="meta">{t(lang, 'common.empty')}</p>
+  <p class="lead empty">{t(lang, 'common.empty')}</p>
 ) : (
-  <ul class="cards">
+  <ul class="entries">
     {entries.map((e) => (
       <li>
-        <a class="card" href={href(`/${lang}/${section}/${slugOf(e.id)}/`)}>
-          {kicker && <span class="meta">{kicker(e)}</span>}
-          <h2>{e.data.title}</h2>
-          <p>{e.data.summary}</p>
-          <p class="meta">{formatDate(lang, e.data.date)}</p>
+        <a class="entry" href={href(`/${lang}/${section}/${slugOf(e.id)}/`)}>
+          <time class="meta" datetime={e.data.date.toISOString().slice(0, 10)}>{formatDate(lang, e.data.date)}</time>
+          <span>
+            <h2>{e.data.title}</h2>
+            <p>{e.data.summary}</p>
+            {kicker && <span class="meta kicker">{kicker(e)}</span>}
+          </span>
         </a>
       </li>
     ))}
   </ul>
 )}
+
+<style>
+  .empty {
+    padding-block: 2rem;
+  }
+</style>
