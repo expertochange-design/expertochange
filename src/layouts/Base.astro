@@ -1,4 +1,5 @@
 ---
+import { getImage } from 'astro:assets';
 import { href, sitePath } from '../lib/url';
 import '@fontsource-variable/inter';
 import '@fontsource-variable/source-serif-4/opsz.css';
@@ -16,12 +17,20 @@ interface Props {
   // Path of this page in the other language, without the language prefix.
   // Null when no translation exists yet; the switch then goes to that language's home.
   altPath?: string | null;
+  // Picture for link previews when the page is shared; cropped to 1200×630.
+  image?: ImageMetadata;
+  imageAlt?: string;
+  type?: 'website' | 'article';
 }
 
-const { lang, title, description = t(lang, 'site.tagline'), altPath = null } = Astro.props;
+const { lang, title, description = t(lang, 'site.tagline'), altPath = null, image, imageAlt, type = 'website' } = Astro.props;
 const pageTitle = title ? `${title} · ${t(lang, 'site.name')}` : t(lang, 'site.name');
 const path = sitePath(Astro.url.pathname).replace(/^\/(en|fa)/, '');
 const alt = otherLang(lang);
+const pageUrl = new URL(Astro.url.pathname, Astro.site);
+const preview = image && (await getImage({ src: image, width: 1200, height: 630, fit: 'cover', format: 'jpeg', quality: 80 }));
+// Pages without a photo fall back to the logo as a small square card.
+const previewUrl = preview ? new URL(preview.src, Astro.site) : new URL(href('/apple-touch-icon.png'), Astro.site);
 const switchHref = href(`/${alt}${altPath ?? '/'}`);
 // Visit counting (GoatCounter: no cookies, no personal data). It feeds the
 // "most popular" sort, and is only on when the site code is set at build time.
@@ -37,13 +46,21 @@ const goatcounter = import.meta.env.PUBLIC_GOATCOUNTER_CODE;
     <meta name="description" content={description} />
     <link rel="icon" href={href('/favicon.svg')} type="image/svg+xml" />
     <link rel="apple-touch-icon" href={href('/apple-touch-icon.png')} />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="canonical" href={pageUrl} />
     <link rel="alternate" hreflang={lang} href={new URL(href(`/${lang}${path}`), Astro.site)} />
     {altPath !== null && <link rel="alternate" hreflang={alt} href={new URL(href(`/${alt}${altPath}`), Astro.site)} />}
     <link rel="alternate" hreflang="x-default" href={new URL(href(`/en${lang === 'en' ? path : altPath ?? '/'}`), Astro.site)} />
-    <meta property="og:title" content={pageTitle} />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={t(lang, 'site.name')} />
+    <meta property="og:title" content={title ?? t(lang, 'site.name')} />
     <meta property="og:description" content={description} />
+    <meta property="og:url" content={pageUrl} />
     <meta property="og:locale" content={lang === 'fa' ? 'fa_IR' : 'en_US'} />
+    <meta property="og:image" content={previewUrl} />
+    {preview && <meta property="og:image:width" content="1200" />}
+    {preview && <meta property="og:image:height" content="630" />}
+    {imageAlt && <meta property="og:image:alt" content={imageAlt} />}
+    <meta name="twitter:card" content={preview ? 'summary_large_image' : 'summary'} />
     {goatcounter && (
       <script is:inline async data-goatcounter={`https://${goatcounter}.goatcounter.com/count`} src="https://gc.zgo.at/count.js"></script>
     )}

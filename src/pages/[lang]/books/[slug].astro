@@ -24,7 +24,7 @@ const short = (title: string) => title.split(' · ').slice(-1)[0];
 const link = (e: (typeof parts)[number]) => href(`/${lang}/books/${slugOf(e.id)}/`);
 ---
 
-<Article lang={lang} section="books" slug={slug} title={d.title} summary={d.summary} date={d.date} hasTranslation={hasTranslation}>
+<Article lang={lang} section="books" slug={slug} title={d.title} summary={d.summary} date={d.date} hasTranslation={hasTranslation} image={d.image}>
   <div slot="before">
     <dl class="facts">
       <div><dt class="meta">{t(lang, 'books.author')}</dt><dd>{d.author}</dd></div>

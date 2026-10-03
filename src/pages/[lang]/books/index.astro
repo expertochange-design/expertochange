@@ -3,7 +3,7 @@ import Base from '../../../layouts/Base.astro';
 import EntryList from '../../../components/EntryList.astro';
 import SectionPhoto from '../../../components/SectionPhoto.astro';
 import { formatNumber, langs, t, type Lang } from '../../../i18n/ui';
-import { getEntries } from '../../../lib/content';
+import { getEntries, sectionPhoto } from '../../../lib/content';
 
 export const getStaticPaths = () => langs.map((lang) => ({ params: { lang } }));
 
@@ -25,7 +25,7 @@ const kicker = (e: (typeof all)[number]) =>
     .join(' · ');
 ---
 
-<Base lang={lang} title={t(lang, 'books.title')} altPath="/books/">
+<Base lang={lang} title={t(lang, 'books.title')} altPath="/books/" image={sectionPhoto('books')}>
   <SectionPhoto section="books" variant="banner" />
   <header class="page-head">
     <h1>{t(lang, 'books.title')}</h1>

@@ -3,7 +3,7 @@ import Base from './Base.astro';
 import PostActions from '../components/PostActions.astro';
 import { href } from '../lib/url';
 import { formatDate, otherLang, t, type Lang, type UIKey } from '../i18n/ui';
-import type { Section } from '../lib/content';
+import { sectionPhoto, type Section } from '../lib/content';
 
 interface Props {
   lang: Lang;
@@ -13,14 +13,15 @@ interface Props {
   summary: string;
   date: Date;
   hasTranslation: boolean;
+  image?: ImageMetadata;
 }
 
-const { lang, section, slug, title, summary, date, hasTranslation } = Astro.props;
+const { lang, section, slug, title, summary, date, hasTranslation, image } = Astro.props;
 const altPath = hasTranslation ? `/${section}/${slug}/` : null;
 const sectionTitle = t(lang, `${section}.title` as UIKey);
 ---
 
-<Base lang={lang} title={title} description={summary} altPath={altPath}>
+<Base lang={lang} title={title} description={summary} altPath={altPath} image={image ?? sectionPhoto(section)} imageAlt={title} type="article">
   <article data-pagefind-body>
     <header class="article-head">
       <a class="eyebrow back" data-pagefind-meta="section" data-pagefind-ignore href={href(`/${lang}/${section}/`)}>{sectionTitle}</a>
