@@ -12,13 +12,13 @@ In an ideal world, this would be the hundred-and-something-th expertochange post
 
 On our career paths, many of us move between two important roles: leading in an organization and leading at home. That balance is not always easy, and sometimes a feeling of “not being enough” rises up in both roles, especially on important days like birthdays, wedding anniversaries, Nowruz and the rest.
 
-Today, from the moment we woke up, we all fussed over the tiny hands and feet of our little finch. We took a few photos and sang birthday songs to them in Farsi and German, solo and all together.
+Today, from the moment we woke up, we all fussed over the tiny hands and feet of our little finch. We took a few photos and sang birthday songs to her in Farsi and German, solo and all together.
 
-In the afternoon we had ice cream together, then played at the playground near our home until they were the one who got tired.
+In the afternoon we had ice cream together, then played at the playground near our home until she was the one who got tired.
 
 In the evening we came back home and finished the celebration by blowing out the candles on the cake. A sleepover with Dad (*Übernachten*, as it’s called at home) was the last page of this dream of a day.
 
-Partway through the day they said, “I couldn’t have wished for a better birthday,” so I asked which part they had liked best. The answer was simple: “All of it was good.”
+Partway through the day she said, “I couldn’t have wished for a better birthday,” so I asked which part she had liked best. Her answer was simple: “All of it was good.”
 
 ## What I took from it
 
