@@ -1,0 +1,104 @@
+---
+import { career } from '../data/career';
+import { t, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+// '2019-04' → "April 2019" (English) or the Solar Hijri month and year (Farsi).
+const month = (value: string) => {
+  const [y, m] = value.split('-').map(Number);
+  const fmt = new Intl.DateTimeFormat(lang === 'fa' ? 'fa-IR-u-ca-persian' : 'en-US', {
+    year: 'numeric',
+    ...(m ? { month: 'long' } : {}),
+  });
+  return fmt.format(new Date(Date.UTC(y, (m || 1) - 1, 15)));
+};
+
+const period = (from: string, to: string | undefined, isLast: boolean) => {
+  if (!from) return t(lang, 'career.datesToCome');
+  const end = to ? month(to) : isLast ? t(lang, 'career.present') : '';
+  return end ? `${month(from)} – ${end}` : month(from);
+};
+
+// Newest first, so the current role is the first thing a reader sees.
+const roles = career.map((role, i) => ({ role, isLast: i === career.length - 1 })).reverse();
+---
+
+<ol class="timeline">
+  {roles.map(({ role, isLast }) => (
+    <li class:list={{ current: isLast && !role.to }}>
+      <p class="meta when">
+        {period(role.from, role.to, isLast)}
+        {isLast && !role.to && <span class="badge">{t(lang, 'career.current')}</span>}
+      </p>
+      <h3>{role[lang].title}</h3>
+      <p class="company">{role[lang].company}</p>
+      <p>{role[lang].summary}</p>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .timeline {
+    list-style: none;
+    margin: 0 0 2.5rem;
+    padding: 0;
+  }
+  li {
+    position: relative;
+    padding-inline-start: 1.75rem;
+    padding-block-end: 2rem;
+    border-inline-start: 1px solid var(--rule-strong);
+    margin-inline-start: 0.4rem;
+  }
+  li:last-child {
+    border-inline-start-color: transparent;
+    padding-block-end: 0;
+  }
+  li::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: -0.4rem;
+    top: 0.45rem;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 1px solid var(--rule-strong);
+  }
+  li.current::before {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .when {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+  }
+  .badge {
+    color: var(--accent);
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    padding: 0 0.55rem;
+    font-size: 0.75em;
+  }
+  h3 {
+    margin: 0.3rem 0 0;
+  }
+  .company {
+    margin: 0;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  :global(html[lang='fa']) .company {
+    font-style: normal;
+  }
+  li > p:last-child {
+    margin-block: 0.5rem 0;
+  }
+</style>
