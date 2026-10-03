@@ -1,6 +1,7 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import EntryList from '../../../components/EntryList.astro';
+import SectionPhoto from '../../../components/SectionPhoto.astro';
 import { langs, t, type Lang } from '../../../i18n/ui';
 import { getEntries } from '../../../lib/content';
 
@@ -11,6 +12,7 @@ const entries = await getEntries('portfolio', lang);
 ---
 
 <Base lang={lang} title={t(lang, 'portfolio.title')} altPath="/portfolio/">
+  <SectionPhoto section="portfolio" variant="banner" />
   <header class="page-head">
     <h1>{t(lang, 'portfolio.title')}</h1>
     <p class="lead">{t(lang, 'portfolio.lead')}</p>

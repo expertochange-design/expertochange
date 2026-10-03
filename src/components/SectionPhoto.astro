@@ -1,0 +1,74 @@
+---
+// A softened photo for a section, read from src/assets/sections/<section>.(jpg|jpeg|png|webp).
+// Renders nothing until that photo exists, so sections can get photos one at a time.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import type { Section } from '../lib/content';
+
+interface Props {
+  section: Section;
+  variant: 'thumb' | 'banner';
+  alt?: string;
+}
+
+const { section, variant, alt = '' } = Astro.props;
+const photos = import.meta.glob<{ default: ImageMetadata }>('../assets/sections/*.{jpg,jpeg,png,webp}', { eager: true });
+const match = Object.entries(photos).find(([path]) => path.split('/').pop()!.split('.')[0] === section);
+const src = match?.[1].default;
+const widths = variant === 'banner' ? [720, 1080, 1440, 1920] : [320, 480, 640];
+const sizes = variant === 'banner' ? '(max-width: 960px) 100vw, 960px' : '(max-width: 640px) 100vw, 14rem';
+---
+
+{src && (
+  <figure class:list={['soft-photo', variant]}>
+    <Image src={src} alt={alt} widths={widths} sizes={sizes} format="webp" quality={72} loading={variant === 'banner' ? 'eager' : 'lazy'} />
+  </figure>
+)}
+
+<style>
+  .soft-photo {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 2px;
+    background: var(--rule);
+  }
+  .soft-photo :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    object-fit: cover;
+    /* Mild and quiet: less color, a touch of warmth, lifted shadows. */
+    filter: saturate(0.5) sepia(0.12) contrast(0.88) brightness(1.06);
+  }
+  /* A wash of the page color softens the photo further and ties it to the paper. */
+  .soft-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--paper);
+    opacity: 0.18;
+    pointer-events: none;
+  }
+  .thumb {
+    aspect-ratio: 4 / 3;
+  }
+  .banner {
+    aspect-ratio: 21 / 8;
+    margin-block-end: 2.5rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    .soft-photo :global(img) {
+      filter: saturate(0.45) sepia(0.1) contrast(0.9) brightness(0.8);
+    }
+    .soft-photo::after {
+      opacity: 0.12;
+    }
+  }
+  @media (max-width: 640px) {
+    .banner {
+      aspect-ratio: 3 / 2;
+    }
+  }
+</style>
