@@ -5,6 +5,7 @@ date: 2026-10-03
 author: 'Stephen R. Covey'
 series: 'The 7 Habits of Highly Effective People'
 part: 4
+rating: 5
 takeaways:
   - 'Trust works like a bank account: every kept promise, kind word and honest apology is a deposit you can draw on later.'
   - 'Win-Win starts with character and an abundance mindset, the belief that there is enough success to go around.'

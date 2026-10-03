@@ -5,6 +5,7 @@ date: 2026-10-03
 author: 'Stephen R. Covey'
 series: 'The 7 Habits of Highly Effective People'
 part: 1
+rating: 5
 takeaways:
   - 'Between what happens to you and how you respond there is a space, and in that space you choose.'
   - 'The words you use reveal whether you live reactively or proactively, and changing them changes how you act.'
