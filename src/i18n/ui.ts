@@ -12,6 +12,8 @@ export const ui = {
     'nav.books': 'Books',
     'nav.memories': 'Memories',
     'nav.contact': 'Contact me',
+    'home.support': 'Everything here is free and will stay free.',
+    'home.supportLink': 'Support this work, if you wish',
     'home.intro':
       'Welcome. This is where I share my professional journey, the books that shaped me, and the experiences that taught me the most.',
     'home.portfolio': 'My career path, the work behind it, and lessons for early-career builders.',
@@ -67,6 +69,8 @@ export const ui = {
     'nav.books': 'کتاب‌ها',
     'nav.memories': 'خاطرات',
     'nav.contact': 'تماس با من',
+    'home.support': 'همه محتوای اینجا رایگان است و رایگان می‌ماند.',
+    'home.supportLink': 'اگر مایلید، از این کار حمایت کنید',
     'home.intro':
       'خوش آمدید. اینجا مسیر حرفه‌ای‌ام، کتاب‌هایی که مرا ساختند و تجربه‌هایی که بیشترین درس را به من دادند، به اشتراک می‌گذارم.',
     'home.portfolio': 'مسیر شغلی من، کارهایی که پشت آن است و درس‌هایی برای کسانی که تازه کارشان را شروع کرده‌اند.',
