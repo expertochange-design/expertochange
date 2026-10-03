@@ -5,5 +5,5 @@ export const booking = {
   // Free 10-minute call for individuals.
   person: 'https://cal.com/expertochange-pe9yeg/individuals',
   // 30-minute call for companies; requests are confirmed by hand.
-  company: '',
+  company: 'https://cal.com/expertochange-pe9yeg/30min',
 };
