@@ -1,6 +1,7 @@
 ---
 import { render } from 'astro:content';
 import Article from '../../../layouts/Article.astro';
+import CareerTimeline from '../../../components/CareerTimeline.astro';
 import { entryPaths } from '../../../lib/content';
 import { t, type Lang } from '../../../i18n/ui';
 
@@ -13,10 +14,14 @@ const d = entry.data;
 ---
 
 <Article lang={lang} section="portfolio" slug={slug} title={d.title} summary={d.summary} date={d.date} hasTranslation={hasTranslation} image={d.image}>
-  <dl slot="before" class="facts">
-    <div><dt class="meta">{t(lang, 'portfolio.role')}</dt><dd>{d.role}</dd></div>
-    <div><dt class="meta">{t(lang, 'portfolio.organization')}</dt><dd>{d.organization}</dd></div>
-    <div><dt class="meta">{t(lang, 'portfolio.period')}</dt><dd>{d.period}</dd></div>
-  </dl>
+  {d.timeline ? (
+    <CareerTimeline slot="before" lang={lang} />
+  ) : (
+    <dl slot="before" class="facts">
+      {d.role && <div><dt class="meta">{t(lang, 'portfolio.role')}</dt><dd>{d.role}</dd></div>}
+      {d.organization && <div><dt class="meta">{t(lang, 'portfolio.organization')}</dt><dd>{d.organization}</dd></div>}
+      {d.period && <div><dt class="meta">{t(lang, 'portfolio.period')}</dt><dd>{d.period}</dd></div>}
+    </dl>
+  )}
   <Content />
 </Article>

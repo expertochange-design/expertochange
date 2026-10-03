@@ -1,0 +1,114 @@
+---
+import { career } from '../data/career';
+import { formatNumber, t, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+// Career years, counted from the year I started: "Years 0–4", "Year 14 onward".
+const period = (from: number, to?: number) => {
+  const n = (x: number) => formatNumber(lang, x);
+  return to === undefined
+    ? t(lang, 'career.since').replace('{from}', n(from))
+    : t(lang, 'career.years').replace('{from}', n(from)).replace('{to}', n(to));
+};
+
+// Newest first, so the current role is the first thing a reader sees,
+// with a heading each time the stage (consulting, corporate) changes.
+const roles = [...career].reverse().map((role, i, all) => ({
+  role,
+  current: i === 0 && role.to === undefined,
+  heading: i === 0 || all[i - 1].stage !== role.stage,
+}));
+---
+
+<ol class="timeline">
+  {roles.map(({ role, current, heading }) => (
+    <>
+      {heading && <li class="stage eyebrow">{t(lang, `career.stage.${role.stage}`)}</li>}
+      <li class:list={['role', { current }]}>
+        <p class="meta when">
+          {period(role.from, role.to)}
+          {current && <span class="badge">{t(lang, 'career.current')}</span>}
+        </p>
+        <h3>{role[lang].title}</h3>
+        <p class="company">{role[lang].company}</p>
+        <p>{role[lang].summary}</p>
+      </li>
+    </>
+  ))}
+</ol>
+
+<style>
+  .timeline {
+    list-style: none;
+    margin: 0 0 2.5rem;
+    padding: 0;
+  }
+  .stage {
+    color: var(--accent);
+    padding-block: 0 1.25rem;
+    margin-inline-start: 0.4rem;
+    padding-inline-start: 1.75rem;
+    border-inline-start: 1px solid var(--rule-strong);
+  }
+  .stage:not(:first-child) {
+    padding-block-start: 0.5rem;
+  }
+  .role {
+    position: relative;
+    padding-inline-start: 1.75rem;
+    padding-block-end: 2rem;
+    border-inline-start: 1px solid var(--rule-strong);
+    margin-inline-start: 0.4rem;
+  }
+  .role:last-child {
+    border-inline-start-color: transparent;
+    padding-block-end: 0;
+  }
+  .role::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: -0.4rem;
+    top: 0.45rem;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 1px solid var(--rule-strong);
+  }
+  .role.current::before {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .when {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+  }
+  .badge {
+    color: var(--accent);
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    padding: 0 0.55rem;
+    font-size: 0.75em;
+  }
+  h3 {
+    margin: 0.3rem 0 0;
+  }
+  .company {
+    margin: 0;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  :global(html[lang='fa']) .company {
+    font-style: normal;
+  }
+  .role > p:last-child {
+    margin-block: 0.5rem 0;
+  }
+</style>

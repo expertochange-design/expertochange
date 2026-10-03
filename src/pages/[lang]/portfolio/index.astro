@@ -2,13 +2,19 @@
 import Base from '../../../layouts/Base.astro';
 import EntryList from '../../../components/EntryList.astro';
 import SectionPhoto from '../../../components/SectionPhoto.astro';
-import { langs, t, type Lang } from '../../../i18n/ui';
+import { formatNumber, langs, t, type Lang } from '../../../i18n/ui';
 import { getEntries, sectionPhoto } from '../../../lib/content';
+import { career, currentRole } from '../../../data/career';
 
 export const getStaticPaths = () => langs.map((lang) => ({ params: { lang } }));
 
 const lang = Astro.params.lang as Lang;
 const entries = await getEntries('portfolio', lang);
+// The career path post's line reflects the timeline, so it updates with each new role.
+const kicker = (e: (typeof entries)[number]) =>
+  e.data.timeline
+    ? `${formatNumber(lang, career.length)} ${t(lang, 'career.roles')} · ${t(lang, 'career.now')} ${currentRole[lang].title}`
+    : [e.data.role, e.data.organization, e.data.period].filter(Boolean).join(' · ');
 ---
 
 <Base lang={lang} title={t(lang, 'portfolio.title')} altPath="/portfolio/" image={sectionPhoto('portfolio')}>
@@ -17,5 +23,5 @@ const entries = await getEntries('portfolio', lang);
     <h1>{t(lang, 'portfolio.title')}</h1>
     <p class="lead">{t(lang, 'portfolio.lead')}</p>
   </header>
-  <EntryList lang={lang} section="portfolio" entries={entries} kicker={(e) => `${e.data.role} · ${e.data.organization} · ${e.data.period}`} />
+  <EntryList lang={lang} section="portfolio" entries={entries} kicker={kicker} />
 </Base>

@@ -18,9 +18,12 @@ const portfolio = defineCollection({
   loader: glob({ pattern: '*/*.md', base: './src/content/portfolio' }),
   schema: ({ image }) => z.object({
     ...base(image),
-    role: z.string(),
-    organization: z.string(),
-    period: z.string(),
+    // Role, organization and period show above a case study. The career path
+    // post leaves them out and sets `timeline: true` to show src/data/career.ts.
+    role: z.string().optional(),
+    organization: z.string().optional(),
+    period: z.string().optional(),
+    timeline: z.boolean().default(false),
   }),
 });
 
