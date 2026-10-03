@@ -1,5 +1,6 @@
 ---
-// The root sends Farsi-language browsers to /fa/ and everyone else to /en/.
+// Farsi is the default language: the root always sends visitors to /fa/.
+// English stays one click away through the language switch.
 import { href } from '../lib/url';
 
 const en = href('/en/');
@@ -7,22 +8,21 @@ const fa = href('/fa/');
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="fa" dir="rtl">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>expertochange</title>
-    <link rel="alternate" hreflang="en" href={en} />
+    <link rel="canonical" href={fa} />
     <link rel="alternate" hreflang="fa" href={fa} />
-    <noscript><meta http-equiv="refresh" content={`0; url=${en}`} /></noscript>
-    <script is:inline define:vars={{ en, fa }}>
-      var isFa = (navigator.languages || [navigator.language]).some(function (l) {
-        return /^fa\b/i.test(l);
-      });
-      location.replace(isFa ? fa : en);
+    <link rel="alternate" hreflang="en" href={en} />
+    <link rel="alternate" hreflang="x-default" href={fa} />
+    <meta http-equiv="refresh" content={`0; url=${fa}`} />
+    <script is:inline define:vars={{ fa }}>
+      location.replace(fa);
     </script>
   </head>
   <body>
-    <p><a href={en}>English</a> · <a href={fa} lang="fa">فارسی</a></p>
+    <p><a href={fa} lang="fa">فارسی</a> · <a href={en} lang="en">English</a></p>
   </body>
 </html>
