@@ -12,6 +12,6 @@ const { Content } = await render(entry);
 const d = entry.data;
 ---
 
-<Article lang={lang} section="memories" slug={slug} title={d.title} summary={d.summary} date={d.date} hasTranslation={hasTranslation}>
+<Article lang={lang} section="memories" slug={slug} title={d.title} summary={d.summary} date={d.date} hasTranslation={hasTranslation} image={d.image}>
   <Content />
 </Article>

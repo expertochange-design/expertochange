@@ -28,3 +28,8 @@ export async function entryPaths<S extends Section>(section: S) {
     };
   });
 }
+
+// The section's photo (src/assets/sections/<section>.*), if there is one.
+const sectionPhotos = import.meta.glob<{ default: ImageMetadata }>('../assets/sections/*.{jpg,jpeg,png,webp}', { eager: true });
+export const sectionPhoto = (section: Section) =>
+  Object.entries(sectionPhotos).find(([path]) => path.split('/').pop()!.split('.')[0] === section)?.[1].default;

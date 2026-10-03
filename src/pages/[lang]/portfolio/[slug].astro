@@ -12,7 +12,7 @@ const { Content } = await render(entry);
 const d = entry.data;
 ---
 
-<Article lang={lang} section="portfolio" slug={slug} title={d.title} summary={d.summary} date={d.date} hasTranslation={hasTranslation}>
+<Article lang={lang} section="portfolio" slug={slug} title={d.title} summary={d.summary} date={d.date} hasTranslation={hasTranslation} image={d.image}>
   <dl slot="before" class="facts">
     <div><dt class="meta">{t(lang, 'portfolio.role')}</dt><dd>{d.role}</dd></div>
     <div><dt class="meta">{t(lang, 'portfolio.organization')}</dt><dd>{d.organization}</dd></div>

@@ -1,6 +1,7 @@
 ---
 title: 'A simple but complete day'
 summary: 'Our little finch’s birthday, and what “being enough” means when you lead both at work and at home.'
+image: ../../../assets/memories/birthday-2026.jpg
 date: 2026-07-16
 ---
 

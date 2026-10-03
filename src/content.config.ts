@@ -4,17 +4,20 @@ import { z } from 'astro/zod';
 
 // Each entry lives at <collection>/<lang>/<slug>.md. The same slug in
 // en/ and fa/ links the two language versions of one piece.
-const base = {
+// `image` is the picture shown when a post is shared (X, Telegram, WhatsApp…),
+// a path relative to the post file. Without it, the section photo is used.
+const base = (image: () => z.ZodType<ImageMetadata>) => ({
   title: z.string(),
   summary: z.string(),
   date: z.coerce.date(),
   draft: z.boolean().default(false),
-};
+  image: image().optional(),
+});
 
 const portfolio = defineCollection({
   loader: glob({ pattern: '*/*.md', base: './src/content/portfolio' }),
-  schema: z.object({
-    ...base,
+  schema: ({ image }) => z.object({
+    ...base(image),
     role: z.string(),
     organization: z.string(),
     period: z.string(),
@@ -23,8 +26,8 @@ const portfolio = defineCollection({
 
 const books = defineCollection({
   loader: glob({ pattern: '*/*.md', base: './src/content/books' }),
-  schema: z.object({
-    ...base,
+  schema: ({ image }) => z.object({
+    ...base(image),
     author: z.string(),
     // Optional: a note can go up before the book is rated.
     rating: z.number().int().min(1).max(5).optional(),
@@ -39,7 +42,7 @@ const books = defineCollection({
 
 const memories = defineCollection({
   loader: glob({ pattern: '*/*.md', base: './src/content/memories' }),
-  schema: z.object({ ...base }),
+  schema: ({ image }) => z.object({ ...base(image) }),
 });
 
 export const collections = { portfolio, books, memories };

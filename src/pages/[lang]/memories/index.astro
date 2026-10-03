@@ -3,7 +3,7 @@ import Base from '../../../layouts/Base.astro';
 import EntryList from '../../../components/EntryList.astro';
 import SectionPhoto from '../../../components/SectionPhoto.astro';
 import { langs, t, type Lang } from '../../../i18n/ui';
-import { getEntries } from '../../../lib/content';
+import { getEntries, sectionPhoto } from '../../../lib/content';
 
 export const getStaticPaths = () => langs.map((lang) => ({ params: { lang } }));
 
@@ -11,7 +11,7 @@ const lang = Astro.params.lang as Lang;
 const entries = await getEntries('memories', lang);
 ---
 
-<Base lang={lang} title={t(lang, 'memories.title')} altPath="/memories/">
+<Base lang={lang} title={t(lang, 'memories.title')} altPath="/memories/" image={sectionPhoto('memories')}>
   <SectionPhoto section="memories" variant="banner" />
   <header class="page-head">
     <h1>{t(lang, 'memories.title')}</h1>
