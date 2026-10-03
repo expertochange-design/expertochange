@@ -98,12 +98,12 @@ export const career: Role[] = [
     en: {
       title: 'Global project manager',
       company: 'A well-known international sportswear brand, Germany',
-      summary: 'After moving to Germany, I worked as SAP project manager on a global programme at an international brand that most of us know for its shoes and sportswear.',
+      summary: 'After moving to Germany, I worked at an international brand that most of us know for its shoes and sportswear, as project manager for a third-party logistics (3PL) e-commerce warehouse in a global programme. I learned to work in international teams and with a logistics partner, to plan IT coordination and interfaces in a project like this and to separate roles clearly; settling into a new country and culture was one of the biggest lessons of that year.',
     },
     fa: {
       title: 'مدیر پروژه جهانی',
       company: 'یک برند بین‌المللی شناخته‌شده پوشاک و لوازم ورزشی، آلمان',
-      summary: 'پس از مهاجرت به آلمان، به‌عنوان مدیر پروژه SAP در یک برنامه جهانی در برندی بین‌المللی کار کردم که بیشتر ما آن را با کفش‌ها و لوازم ورزشی‌اش می‌شناسیم.',
+      summary: 'پس از مهاجرت به آلمان، در برندی بین‌المللی که بیشتر ما آن را با کفش‌ها و لوازم ورزشی‌اش می‌شناسیم، مدیر پروژه انبار تجارت الکترونیک با یک شرکت لجستیک طرف سوم (3PL) در یک برنامه جهانی بودم. همکاری در تیم‌های بین‌المللی و با شریک لجستیک، برنامه‌ریزی هماهنگی‌های فناوری اطلاعات و رابط‌ها در چنین پروژه‌ای و تفکیک روشن نقش‌ها را یاد گرفتم؛ جاافتادن در فضای تازه هم از بزرگ‌ترین درس‌های آن سال بود.',
     },
   },
   {
@@ -112,13 +112,13 @@ export const career: Role[] = [
     to: 14,
     en: {
       title: 'Global SAP procurement consultant',
-      company: 'Company name',
-      summary: 'Two or three sentences: what you did, what you learned, and why you moved on.',
+      company: 'A luxury-goods manufacturer, Germany',
+      summary: 'After so many changes, I chose to return to functional work for a while, which has always fascinated me. I deepened my expertise in procurement: SAP MM, or procure-to-pay (P2P) as it is called today, and got to know SAP Ariba.',
     },
     fa: {
       title: 'مشاور جهانی SAP در حوزه تدارکات',
-      company: 'نام شرکت',
-      summary: 'دو یا سه جمله: چه کاری انجام دادید، چه آموختید و چرا به نقش بعدی رفتید.',
+      company: 'یک تولیدکننده محصولات لوکس، آلمان',
+      summary: 'پس از آن همه تغییر، دوست داشتم مدتی در حوزه امن خودم باشم و به نقش فانکشنال برگشتم که همیشه برایم جذاب بوده است. تخصصم را در حوزه خرید و تدارکات عمیق‌تر کردم: ماژول SAP MM یا به تعبیر امروز فرایند خرید تا پرداخت (P2P)، و با SAP Ariba آشنا شدم.',
     },
   },
   {
@@ -126,13 +126,13 @@ export const career: Role[] = [
     from: 14,
     en: {
       title: 'Global team lead: FI/CO, procurement and HR',
-      company: 'Company name',
-      summary: 'Two or three sentences: what you do now and what you are learning.',
+      company: 'An international company, Germany',
+      summary: 'I lead the SAP team for the CFO and HR areas: consultants and product managers in finance, controlling, procurement and HR. I also own a portfolio of about a hundred applications in these areas, including managing their suppliers and maintaining and growing our digital portfolio.',
     },
     fa: {
       title: 'سرپرست تیم جهانی: مالی و کنترلینگ، تدارکات و منابع انسانی',
-      company: 'نام شرکت',
-      summary: 'دو یا سه جمله: اکنون چه کاری انجام می‌دهید و چه می‌آموزید.',
+      company: 'یک شرکت بین‌المللی، آلمان',
+      summary: 'سرپرست تیم SAP برای حوزه‌های مالی (CFO) و منابع انسانی هستم و تیم مشاوران و مدیران محصول در حوزه‌های مالی، کنترلینگ، تدارکات و منابع انسانی را مدیریت می‌کنم. پورتفولیویی از حدود صد نرم‌افزار در این حوزه‌ها هم با من است، از مدیریت تأمین‌کنندگان تا نگهداری و توسعه پورتفولیوی دیجیتال‌مان.',
     },
   },
 ];
