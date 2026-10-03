@@ -7,6 +7,6 @@ timeline: true
 
 ## Why I keep this timeline
 
-A few sentences on what ties these roles together, and what you would tell someone at the start of the same path. I add a new entry here each time I take on a new role.
+Every role on this path began with something I did not yet know. I keep this timeline to show that a career is built one honest step at a time. Each chapter will get its own long-form videos with the full story behind it.
 
 Years are counted from the start of my career: year 0 is my first job.

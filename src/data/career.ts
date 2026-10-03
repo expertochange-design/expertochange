@@ -4,6 +4,8 @@
 //
 // from / to: years into my career (0 = the year I started). Leave `to` out
 // for the current role. `stage` groups roles under a heading on the page.
+// `videos`: the long-form story videos for a role, as many as you like;
+// each shows as a "Watch" link under the role once added.
 
 export type Stage = 'consulting' | 'corporate';
 
@@ -13,6 +15,7 @@ export interface Role {
   to?: number;
   en: { title: string; company: string; summary: string };
   fa: { title: string; company: string; summary: string };
+  videos?: { url: string; en: string; fa: string }[];
 }
 
 export const career: Role[] = [
@@ -23,12 +26,12 @@ export const career: Role[] = [
     en: {
       title: 'SAP PP consultant',
       company: 'Consulting firms in Iran',
-      summary: 'I started as an SAP production planning (PP) consultant with no prior experience, on a project at a well-known car-parts maker. Sanctions meant almost no training in Iran, so I learned from whatever I could find online and from the Turkish consultants on the project; when they left Iran midway, our own team had to finish it. Over four years and three companies I took projects from preparation to go-live and hypercare, learning PP end to end: configuration, blueprint workshops, testing and data migration.',
+      summary: 'No experience, no training under sanctions, and a factory waiting to go live. I learned SAP production planning from the internet and the people beside me, and when the foreign partner left mid-project, we finished it ourselves.',
     },
     fa: {
       title: 'مشاور SAP PP',
       company: 'شرکت‌های مشاوره در ایران',
-      summary: 'بدون هیچ سابقه کاری، به‌عنوان مشاور پیاده‌سازی ماژول برنامه‌ریزی تولید (SAP PP) در پروژه یک شرکت معروف قطعه‌سازی خودرو شروع کردم. به‌خاطر تحریم‌ها تقریباً هیچ منبع و دوره آموزشی در ایران نبود؛ از هر محتوایی که در اینترنت پیدا می‌شد و از مشاوران ترک پروژه یاد گرفتم و وقتی آن‌ها در میانه کار از ایران رفتند، ادامه پروژه با تیم خودمان بود. در چهار سال و سه شرکت، پروژه‌ها را از فاز آماده‌سازی تا راه‌اندازی و پشتیبانی پس از آن پیش بردیم و ماژول تولید را در همه ابعادش آموختم: پیکربندی، کارگاه‌های بلوپرینت، تست و انتقال داده.',
+      summary: 'بدون سابقه کار، بدون هیچ دوره آموزشی زیر سایه تحریم، و کارخانه‌ای که منتظر راه‌اندازی بود. برنامه‌ریزی تولید SAP را از اینترنت و از همکارانم آموختم، و وقتی شریک خارجی در میانه پروژه رفت، خودمان آن را به سرانجام رساندیم.',
     },
   },
   {
@@ -38,12 +41,12 @@ export const career: Role[] = [
     en: {
       title: 'SAP PS/QM and pre-sales consultant',
       company: 'An SAP consulting firm in Iran',
-      summary: 'At a new consulting firm with no active manufacturing clients, I learned SAP Project System (PS) and Quality Management (QM) and supported pre-sales: running demos for prospects and setting up systems for proofs of concept. After four years deep in one module, I became T-shaped: broad knowledge of several SAP modules and how they connect, while my production planning expertise kept deepening.',
+      summary: 'With no factory to serve, I chose breadth: project systems, quality management and pre-sales, where demos and proofs of concept earn trust before a project begins. Depth became a T-shape.',
     },
     fa: {
       title: 'مشاور SAP PS/QM و پیش‌فروش',
       company: 'یک شرکت مشاوره SAP در ایران',
-      summary: 'در شرکت مشاوره تازه‌ای که در آن زمان مشتری تولیدی فعال نداشت، ماژول‌های سیستم پروژه (SAP PS) و مدیریت کیفیت (QM) را یاد گرفتم و در پیش‌فروش کمک می‌کردم: برگزاری دمو برای مشتریان بالقوه و آماده‌کردن سیستم برای اثبات مفهوم (POC). پس از چهار سال تمرکز عمیق بر یک ماژول، دانشی T-شکل پیدا کردم: شناخت کلی چند ماژول SAP و ارتباط میان آن‌ها، در حالی که دانش برنامه‌ریزی تولیدم عمیق‌تر هم می‌شد.',
+      summary: 'وقتی کارخانه‌ای برای خدمت نبود، گستره را انتخاب کردم: سیستم پروژه، مدیریت کیفیت و پیش‌فروش، جایی که دموها و اثبات مفهوم پیش از آغاز هر پروژه اعتماد می‌سازند. عمق، شکل T به خود گرفت.',
     },
   },
   {
@@ -53,12 +56,12 @@ export const career: Role[] = [
     en: {
       title: 'SAP logistics team lead',
       company: 'Consulting projects at a large food company and a large home-appliance maker in Iran',
-      summary: 'After my first daughter was born, I changed company. I worked as production and project system consultant and led all consultants in logistics: MM, SD, PP, warehouse management and PS. It was my first people-management role; in a small, flat consulting firm it taught me hiring, finding talent and helping junior consultants grow faster.',
+      summary: 'A new daughter, a new company and my first team. Leading the logistics consultants taught me that the best investment is helping others grow faster than I did.',
     },
     fa: {
       title: 'سرپرست تیم لجستیک SAP',
       company: 'پروژه‌های مشاوره در یک شرکت بزرگ غذایی و یک شرکت بزرگ لوازم خانگی در ایران',
-      summary: 'پس از تولد دختر اولم شرکتم را عوض کردم. مشاور تولید و سیستم پروژه بودم و سرپرستی همه مشاوران حوزه لجستیک را بر عهده داشتم: MM، SD، تولید، انبار و PS. این اولین مسئولیت مدیریت افراد من بود؛ در یک شرکت مشاوره کوچک با ساختار تخت، استخدام، پیدا کردن استعدادها و کمک به مشاوران تازه‌کار برای رشد سریع‌تر را یاد گرفتم.',
+      summary: 'دختری تازه، شرکتی تازه و اولین تیمم. سرپرستی مشاوران لجستیک به من آموخت که بهترین سرمایه‌گذاری، کمک به رشد سریع‌تر دیگران است.',
     },
   },
   {
@@ -68,12 +71,12 @@ export const career: Role[] = [
     en: {
       title: 'Head of SAP',
       company: 'The largest hygiene-products manufacturer in Iran',
-      summary: 'After my second daughter was born, I moved from consulting to the client side for the first time, as head of ERP with a small in-house SAP team. The implementation partner had left Iran because of sanctions and the SAP project was half done. With my team and a few hand-picked consultants, and no large implementation contract, we took the group’s largest manufacturing company live on all core modules in under five months.',
+      summary: 'I crossed to the client side to rescue an SAP project left half-done under sanctions. With a hand-picked team and no big implementation partner, we took the group’s largest factory live on every core module in under five months.',
     },
     fa: {
       title: 'مدیر SAP',
       company: 'بزرگ‌ترین تولیدکننده محصولات بهداشتی در ایران',
-      summary: 'پس از تولد دختر دومم، برای اولین بار از شرکت‌های مشاوره به سمت کارفرما رفتم و با یک تیم چندنفره از مشاوران داخلی SAP، مدیر ERP شدم. شرکت پیاده‌ساز به‌خاطر تحریم‌ها از ایران رفته بود و پروژه نیمه‌کاره مانده بود. با تیمم و چند مشاور دست‌چین‌شده، بدون قرارداد بزرگ با یک شرکت پیاده‌ساز، بزرگ‌ترین شرکت تولیدی مجموعه را در کمتر از پنج ماه در همه ماژول‌های اصلی راه‌اندازی کردیم.',
+      summary: 'به سمت کارفرما رفتم تا پروژه‌ای را نجات دهم که زیر تحریم نیمه‌کاره مانده بود. با تیمی دست‌چین‌شده و بدون شریک پیاده‌سازی بزرگ، بزرگ‌ترین کارخانه مجموعه را در کمتر از پنج ماه در همه ماژول‌های اصلی راه‌اندازی کردیم.',
     },
   },
   {
@@ -83,12 +86,12 @@ export const career: Role[] = [
     en: {
       title: 'Head of Applications',
       company: 'The largest hygiene-products manufacturer in Iran',
-      summary: 'I also took on the BI and data analytics team and led enterprise applications for another year. The corporate world was very different from consulting: wider and more complex people management, IT supplier relationships, contracts and renewals, budgeting, and stakeholder management across several layers of management.',
+      summary: 'Owning the whole application landscape, BI included, taught me the corporate game: suppliers, contracts, budgets and stakeholders across many layers. Technology was the easy part.',
     },
     fa: {
       title: 'مدیر نرم‌افزارهای سازمانی',
       company: 'بزرگ‌ترین تولیدکننده محصولات بهداشتی در ایران',
-      summary: 'مسئولیت تیم هوش تجاری و تحلیل داده را هم پذیرفتم و یک سال دیگر مدیر ارشد نرم‌افزارهای سازمانی بودم. دنیای کارفرما با شرکت‌های مشاوره بسیار متفاوت بود: مدیریت افراد گسترده‌تر و پیچیده‌تر، رابطه با تأمین‌کنندگان فناوری اطلاعات، قراردادها و تمدیدها، بودجه‌ریزی و مدیریت ذی‌نفعان در سازمانی با چندین لایه مدیریتی.',
+      summary: 'مسئولیت کل نرم‌افزارهای سازمان، از جمله هوش تجاری، بازی دنیای کارفرما را به من آموخت: تأمین‌کنندگان، قراردادها، بودجه و ذی‌نفعان در لایه‌های متعدد مدیریتی. فناوری بخش ساده ماجرا بود.',
     },
   },
   {
@@ -98,12 +101,12 @@ export const career: Role[] = [
     en: {
       title: 'Global project manager',
       company: 'A well-known international sportswear brand, Germany',
-      summary: 'After moving to Germany, I worked at an international brand that most of us know for its shoes and sportswear, as project manager for a third-party logistics (3PL) e-commerce warehouse in a global programme. I learned to work in international teams and with a logistics partner, to plan IT coordination and interfaces in a project like this and to separate roles clearly; settling into a new country and culture was one of the biggest lessons of that year.',
+      summary: 'A new country, a global brand and an e-commerce warehouse run by a logistics partner. Coordinating partners, interfaces and roles across borders, I learned that integration starts with yourself.',
     },
     fa: {
       title: 'مدیر پروژه جهانی',
       company: 'یک برند بین‌المللی شناخته‌شده پوشاک و لوازم ورزشی، آلمان',
-      summary: 'پس از مهاجرت به آلمان، در برندی بین‌المللی که بیشتر ما آن را با کفش‌ها و لوازم ورزشی‌اش می‌شناسیم، مدیر پروژه انبار تجارت الکترونیک با یک شرکت لجستیک طرف سوم (3PL) در یک برنامه جهانی بودم. همکاری در تیم‌های بین‌المللی و با شریک لجستیک، برنامه‌ریزی هماهنگی‌های فناوری اطلاعات و رابط‌ها در چنین پروژه‌ای و تفکیک روشن نقش‌ها را یاد گرفتم؛ جاافتادن در فضای تازه هم از بزرگ‌ترین درس‌های آن سال بود.',
+      summary: 'کشوری تازه، برندی جهانی و انبار تجارت الکترونیکی که شریکی لجستیکی اداره‌اش می‌کرد. در هماهنگی شرکا، رابط‌ها و نقش‌ها در آن سوی مرزها آموختم که یکپارچه‌سازی از خود آدم شروع می‌شود.',
     },
   },
   {
@@ -113,12 +116,12 @@ export const career: Role[] = [
     en: {
       title: 'Global SAP procurement consultant',
       company: 'A luxury-goods manufacturer, Germany',
-      summary: 'After so many changes, I chose to return to functional work for a while, which has always fascinated me. I deepened my expertise in procurement: SAP MM, or procure-to-pay (P2P) as it is called today, and got to know SAP Ariba.',
+      summary: 'After so much change, I returned to the craft I love. Three years deep in procurement, from SAP MM and procure-to-pay to SAP Ariba, turned breadth back into mastery.',
     },
     fa: {
       title: 'مشاور جهانی SAP در حوزه تدارکات',
       company: 'یک تولیدکننده محصولات لوکس، آلمان',
-      summary: 'پس از آن همه تغییر، دوست داشتم مدتی در حوزه امن خودم باشم و به نقش فانکشنال برگشتم که همیشه برایم جذاب بوده است. تخصصم را در حوزه خرید و تدارکات عمیق‌تر کردم: ماژول SAP MM یا به تعبیر امروز فرایند خرید تا پرداخت (P2P)، و با SAP Ariba آشنا شدم.',
+      summary: 'پس از آن همه تغییر، به حرفه‌ای که دوستش دارم برگشتم. سه سال غرق‌شدن در تدارکات، از SAP MM و فرایند خرید تا پرداخت تا SAP Ariba، گستره را دوباره به استادی تبدیل کرد.',
     },
   },
   {
@@ -127,12 +130,12 @@ export const career: Role[] = [
     en: {
       title: 'Global team lead: FI/CO, procurement and HR',
       company: 'An international company, Germany',
-      summary: 'I lead the SAP team for the CFO and HR areas: consultants and product managers in finance, controlling, procurement and HR. I also own a portfolio of about a hundred applications in these areas, including managing their suppliers and maintaining and growing our digital portfolio.',
+      summary: 'Today I lead the SAP team for finance, controlling, procurement and HR, and a portfolio of about a hundred applications. The work now is shaping where that portfolio goes next, and growing the people who will take it there.',
     },
     fa: {
       title: 'سرپرست تیم جهانی: مالی و کنترلینگ، تدارکات و منابع انسانی',
       company: 'یک شرکت بین‌المللی، آلمان',
-      summary: 'سرپرست تیم SAP برای حوزه‌های مالی (CFO) و منابع انسانی هستم و تیم مشاوران و مدیران محصول در حوزه‌های مالی، کنترلینگ، تدارکات و منابع انسانی را مدیریت می‌کنم. پورتفولیویی از حدود صد نرم‌افزار در این حوزه‌ها هم با من است، از مدیریت تأمین‌کنندگان تا نگهداری و توسعه پورتفولیوی دیجیتال‌مان.',
+      summary: 'امروز تیم SAP حوزه‌های مالی، کنترلینگ، تدارکات و منابع انسانی و پورتفولیویی از حدود صد نرم‌افزار را رهبری می‌کنم. کار امروز من ترسیم آینده این پورتفولیو و پرورش آدم‌هایی است که آن را به مقصد می‌رسانند.',
     },
   },
 ];
