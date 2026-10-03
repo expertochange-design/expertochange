@@ -1,6 +1,6 @@
 ---
 import { career } from '../data/career';
-import { t, type Lang } from '../i18n/ui';
+import { formatNumber, t, type Lang } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
@@ -8,37 +8,37 @@ interface Props {
 
 const { lang } = Astro.props;
 
-// '2019-04' → "April 2019" (English) or the Solar Hijri month and year (Farsi).
-const month = (value: string) => {
-  const [y, m] = value.split('-').map(Number);
-  const fmt = new Intl.DateTimeFormat(lang === 'fa' ? 'fa-IR-u-ca-persian' : 'en-US', {
-    year: 'numeric',
-    ...(m ? { month: 'long' } : {}),
-  });
-  return fmt.format(new Date(Date.UTC(y, (m || 1) - 1, 15)));
+// Career years, counted from the year I started: "Years 0–4", "Year 14 onward".
+const period = (from: number, to?: number) => {
+  const n = (x: number) => formatNumber(lang, x);
+  return to === undefined
+    ? t(lang, 'career.since').replace('{from}', n(from))
+    : t(lang, 'career.years').replace('{from}', n(from)).replace('{to}', n(to));
 };
 
-const period = (from: string, to: string | undefined, isLast: boolean) => {
-  if (!from) return t(lang, 'career.datesToCome');
-  const end = to ? month(to) : isLast ? t(lang, 'career.present') : '';
-  return end ? `${month(from)} – ${end}` : month(from);
-};
-
-// Newest first, so the current role is the first thing a reader sees.
-const roles = career.map((role, i) => ({ role, isLast: i === career.length - 1 })).reverse();
+// Newest first, so the current role is the first thing a reader sees,
+// with a heading each time the stage (consulting, corporate) changes.
+const roles = [...career].reverse().map((role, i, all) => ({
+  role,
+  current: i === 0 && role.to === undefined,
+  heading: i === 0 || all[i - 1].stage !== role.stage,
+}));
 ---
 
 <ol class="timeline">
-  {roles.map(({ role, isLast }) => (
-    <li class:list={{ current: isLast && !role.to }}>
-      <p class="meta when">
-        {period(role.from, role.to, isLast)}
-        {isLast && !role.to && <span class="badge">{t(lang, 'career.current')}</span>}
-      </p>
-      <h3>{role[lang].title}</h3>
-      <p class="company">{role[lang].company}</p>
-      <p>{role[lang].summary}</p>
-    </li>
+  {roles.map(({ role, current, heading }) => (
+    <>
+      {heading && <li class="stage eyebrow">{t(lang, `career.stage.${role.stage}`)}</li>}
+      <li class:list={['role', { current }]}>
+        <p class="meta when">
+          {period(role.from, role.to)}
+          {current && <span class="badge">{t(lang, 'career.current')}</span>}
+        </p>
+        <h3>{role[lang].title}</h3>
+        <p class="company">{role[lang].company}</p>
+        <p>{role[lang].summary}</p>
+      </li>
+    </>
   ))}
 </ol>
 
@@ -48,18 +48,28 @@ const roles = career.map((role, i) => ({ role, isLast: i === career.length - 1 }
     margin: 0 0 2.5rem;
     padding: 0;
   }
-  li {
+  .stage {
+    color: var(--accent);
+    padding-block: 0 1.25rem;
+    margin-inline-start: 0.4rem;
+    padding-inline-start: 1.75rem;
+    border-inline-start: 1px solid var(--rule-strong);
+  }
+  .stage:not(:first-child) {
+    padding-block-start: 0.5rem;
+  }
+  .role {
     position: relative;
     padding-inline-start: 1.75rem;
     padding-block-end: 2rem;
     border-inline-start: 1px solid var(--rule-strong);
     margin-inline-start: 0.4rem;
   }
-  li:last-child {
+  .role:last-child {
     border-inline-start-color: transparent;
     padding-block-end: 0;
   }
-  li::before {
+  .role::before {
     content: '';
     position: absolute;
     inset-inline-start: -0.4rem;
@@ -70,7 +80,7 @@ const roles = career.map((role, i) => ({ role, isLast: i === career.length - 1 }
     background: var(--paper);
     border: 1px solid var(--rule-strong);
   }
-  li.current::before {
+  .role.current::before {
     background: var(--accent);
     border-color: var(--accent);
   }
@@ -98,7 +108,7 @@ const roles = career.map((role, i) => ({ role, isLast: i === career.length - 1 }
   :global(html[lang='fa']) .company {
     font-style: normal;
   }
-  li > p:last-child {
+  .role > p:last-child {
     margin-block: 0.5rem 0;
   }
 </style>
