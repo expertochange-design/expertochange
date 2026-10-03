@@ -40,6 +40,10 @@ const books = defineCollection({
     // 0, 1, 2… for their order. The books list shows a series as one entry.
     series: z.string().optional(),
     part: z.number().int().min(0).optional(),
+    // A post announced before its final version is out: the page shows the
+    // title and a short "stay tuned" note, without takeaways. Full scripts wait
+    // in drafts/ until release.
+    comingSoon: z.boolean().default(false),
   }),
 });
 
