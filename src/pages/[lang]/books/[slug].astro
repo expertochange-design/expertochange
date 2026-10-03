@@ -1,7 +1,8 @@
 ---
 import { render } from 'astro:content';
 import Article from '../../../layouts/Article.astro';
-import { entryPaths } from '../../../lib/content';
+import { entryPaths, getEntries, slugOf } from '../../../lib/content';
+import { href } from '../../../lib/url';
 import { formatNumber, t, type Lang } from '../../../i18n/ui';
 
 export const getStaticPaths = () => entryPaths('books');
@@ -10,20 +11,41 @@ const { entry, hasTranslation } = Astro.props;
 const { lang, slug } = Astro.params as { lang: Lang; slug: string };
 const { Content } = await render(entry);
 const d = entry.data;
+// The other parts of this book's series, in order.
+const parts = d.series
+  ? (await getEntries('books', lang))
+      .filter((e) => e.data.series === d.series)
+      .sort((a, b) => (a.data.part ?? 0) - (b.data.part ?? 0))
+  : [];
+const here = parts.findIndex((e) => slugOf(e.id) === slug);
+const next = here >= 0 ? parts[here + 1] : undefined;
+const link = (e: (typeof parts)[number]) => href(`/${lang}/books/${slugOf(e.id)}/`);
 ---
 
 <Article lang={lang} section="books" slug={slug} title={d.title} summary={d.summary} date={d.date} hasTranslation={hasTranslation}>
   <div slot="before">
     <dl class="facts">
       <div><dt class="meta">{t(lang, 'books.author')}</dt><dd>{d.author}</dd></div>
-      <div>
-        <dt class="meta">{t(lang, 'books.rating')}</dt>
-        <dd>
-          <span class="stars" aria-hidden="true">{'★'.repeat(d.rating)}<span class="off">{'★'.repeat(5 - d.rating)}</span></span>
-          <span class="sr">{formatNumber(lang, d.rating)} / {formatNumber(lang, 5)}</span>
-        </dd>
-      </div>
+      {d.rating && (
+        <div>
+          <dt class="meta">{t(lang, 'books.rating')}</dt>
+          <dd>
+            <span class="stars" aria-hidden="true">{'★'.repeat(d.rating)}<span class="off">{'★'.repeat(5 - d.rating)}</span></span>
+            <span class="sr">{formatNumber(lang, d.rating)} / {formatNumber(lang, 5)}</span>
+          </dd>
+        </div>
+      )}
     </dl>
+    {parts.length > 1 && (
+      <nav class="series" aria-label={t(lang, 'books.series')}>
+        <h2 class="eyebrow">{t(lang, 'books.series')}: {d.series}</h2>
+        <ol>
+          {parts.map((e, i) => (
+            <li>{i === here ? <span aria-current="page">{e.data.title}</span> : <a href={link(e)}>{e.data.title}</a>}</li>
+          ))}
+        </ol>
+      </nav>
+    )}
     <section class="takeaways">
       <h2 class="eyebrow">{t(lang, 'books.takeaways')}</h2>
       <ol>{d.takeaways.map((x) => <li>{x}</li>)}</ol>
@@ -34,6 +56,11 @@ const d = entry.data;
     </section>
   </div>
   <Content />
+  {next && (
+    <p class="next" data-pagefind-ignore>
+      <a href={link(next)}>{next.data.title}</a>
+    </p>
+  )}
 </Article>
 
 <style>
@@ -48,6 +75,42 @@ const d = entry.data;
     margin-inline-start: 0.5rem;
     color: var(--muted);
     font-size: 0.9rem;
+  }
+  .series {
+    margin-block-end: 2.5rem;
+    padding: 1rem 1.25rem;
+    border-inline-start: 2px solid var(--accent);
+    background: var(--paper-raised);
+  }
+  .series .eyebrow {
+    margin: 0 0 0.5rem;
+  }
+  .series ol {
+    margin: 0;
+    padding-inline-start: 1.4rem;
+    font-size: 0.95rem;
+  }
+  .series li {
+    padding-block: 0.15rem;
+  }
+  .series a {
+    text-decoration: none;
+  }
+  .series [aria-current] {
+    font-weight: 600;
+  }
+  .next {
+    margin-block-start: 3rem;
+    text-align: end;
+  }
+  .next a {
+    text-decoration: none;
+  }
+  .next a::after {
+    content: ' →';
+  }
+  :global(html[dir='rtl']) .next a::after {
+    content: ' ←';
   }
   .takeaways,
   .recommend {
