@@ -3,7 +3,7 @@
 // Leave a link empty and its button shows "opening soon" instead.
 export const booking = {
   // Free 10-minute call for individuals.
-  person: '',
+  person: 'https://cal.com/expertochange-pe9yeg/individuals',
   // 30-minute call for companies; requests are confirmed by hand.
   company: '',
 };
