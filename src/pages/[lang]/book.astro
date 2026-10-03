@@ -1,170 +1,21 @@
 ---
-import Base from '../../layouts/Base.astro';
-import { booking } from '../../lib/booking';
-import { formatNumber, langs, type Lang } from '../../i18n/ui';
+// Book a call moved into the Contact me page; this keeps old links working.
+import { href } from '../../lib/url';
+import { langs, type Lang } from '../../i18n/ui';
 
 export const getStaticPaths = () => langs.map((lang) => ({ params: { lang } }));
 
 const lang = Astro.params.lang as Lang;
-const n = (x: number) => formatNumber(lang, x);
-
-const copy = {
-  en: {
-    title: 'Book a call',
-    lead: 'Pick the call that fits. You choose a time on my calendar and get an invite by email.',
-    minutes: 'minutes',
-    soon: 'Booking opens soon',
-    person: {
-      label: 'For individuals',
-      price: 'Free',
-      name: 'A short talk',
-      text: 'A quick question about your career, a book, or something I wrote. Come with one clear question and we will make the most of ten minutes.',
-      cta: 'Book 10 minutes',
-    },
-    company: {
-      label: 'For companies',
-      price: 'On request',
-      name: 'A working session',
-      text: 'For companies with a specific project, role, or partnership to discuss. Tell me a little about it when you book. I confirm requests that are a good fit.',
-      criteria: ['A clear topic or goal for the call', 'Someone who can decide on next steps joins', 'Work related to my experience'],
-      cta: 'Request 30 minutes',
-    },
-  },
-  fa: {
-    title: 'رزرو گفتگو',
-    lead: 'گفتگوی مناسب خود را انتخاب کنید. زمانی را در تقویم من انتخاب می‌کنید و دعوت‌نامه با ایمیل برایتان می‌آید.',
-    minutes: 'دقیقه',
-    soon: 'رزرو به‌زودی باز می‌شود',
-    person: {
-      label: 'برای افراد',
-      price: 'رایگان',
-      name: 'یک گفتگوی کوتاه',
-      text: 'یک سؤال کوتاه درباره مسیر کاری، یک کتاب یا نوشته‌ای از من. با یک سؤال روشن بیایید تا از این ده دقیقه بیشترین استفاده را ببریم.',
-      cta: 'رزرو ۱۰ دقیقه',
-    },
-    company: {
-      label: 'برای شرکت‌ها',
-      price: 'با درخواست',
-      name: 'یک جلسه کاری',
-      text: 'برای شرکت‌هایی که پروژه، موقعیت شغلی یا همکاری مشخصی برای گفتگو دارند. هنگام رزرو کمی درباره آن بنویسید. درخواست‌هایی را که مناسب باشند تأیید می‌کنم.',
-      criteria: ['موضوع یا هدف روشن برای جلسه', 'حضور کسی که درباره قدم‌های بعدی تصمیم می‌گیرد', 'کاری مرتبط با تجربه من'],
-      cta: 'درخواست ۳۰ دقیقه',
-    },
-  },
-}[lang];
-
-const options = [
-  { ...copy.person, minutes: 10, url: booking.person },
-  { ...copy.company, minutes: 30, url: booking.company },
-];
+const to = href(`/${lang}/contact/`);
 ---
 
-<Base lang={lang} title={copy.title} altPath="/book/">
-  <header class="page-head">
-    <h1>{copy.title}</h1>
-    <p class="lead">{copy.lead}</p>
-  </header>
-
-  <ul class="options">
-    {options.map((o) => (
-      <li class="option">
-        <p class="eyebrow">{o.label}</p>
-        <p class="length">
-          <span class="num">{n(o.minutes)}</span> {copy.minutes}
-          <span class="price">&nbsp;· {o.price}</span>
-        </p>
-        <h2>{o.name}</h2>
-        <p>{o.text}</p>
-        {'criteria' in o && (
-          <ul class="criteria">
-            {(o.criteria as string[]).map((c) => <li>{c}</li>)}
-          </ul>
-        )}
-        {o.url ? (
-          <a class="cta" href={o.url} target="_blank" rel="noopener">{o.cta}</a>
-        ) : (
-          <span class="cta disabled" aria-disabled="true">{copy.soon}</span>
-        )}
-      </li>
-    ))}
-  </ul>
-</Base>
-
-<style>
-  .page-head {
-    margin-block-end: 3rem;
-  }
-  .options {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
-    gap: 1.5rem;
-  }
-  .option {
-    display: flex;
-    flex-direction: column;
-    padding: 2rem 1.75rem;
-    border: 1px solid var(--rule);
-    border-top: 2px solid var(--accent);
-    background: var(--paper-raised);
-  }
-  .option .eyebrow {
-    margin: 0 0 0.75rem;
-    color: var(--accent);
-  }
-  .length {
-    margin: 0;
-    color: var(--ink-soft);
-  }
-  .num {
-    font-size: 2.6rem;
-    line-height: 1;
-    color: var(--ink);
-  }
-  .price {
-    color: var(--muted);
-  }
-  .option h2 {
-    margin-block: 1rem 0.5rem;
-    font-size: 1.35rem;
-  }
-  .option p {
-    margin-block: 0 1rem;
-  }
-  .criteria {
-    margin: 0 0 1rem;
-    padding-inline-start: 1.1rem;
-    color: var(--ink-soft);
-    font-size: 0.95rem;
-  }
-  .cta {
-    margin-block-start: auto;
-    align-self: flex-start;
-    padding: 0.7rem 1.3rem;
-    border: 1px solid var(--accent);
-    border-radius: 2px;
-    background: var(--accent);
-    color: var(--paper);
-    font-family: var(--sans);
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-decoration: none;
-  }
-  .cta:hover {
-    background: var(--accent-hover);
-    color: var(--paper);
-  }
-  .cta.disabled {
-    background: none;
-    color: var(--muted);
-    border-color: var(--rule-strong);
-  }
-  :global(html[lang='fa']) .cta {
-    font-family: var(--farsi);
-    font-size: 0.95rem;
-    letter-spacing: 0;
-  }
-</style>
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content={`0; url=${to}`} />
+    <link rel="canonical" href={to} />
+  </head>
+  <body><a href={to}>{to}</a></body>
+</html>
