@@ -5,6 +5,7 @@ date: 2026-10-03
 author: 'Stephen R. Covey'
 series: 'The 7 Habits of Highly Effective People'
 part: 0
+rating: 5
 takeaways:
   - 'Lasting change comes from character and principles, not from quick techniques layered on top of who you are.'
   - 'How you see a situation shapes what you do about it, so changing your results often starts with changing your paradigm.'

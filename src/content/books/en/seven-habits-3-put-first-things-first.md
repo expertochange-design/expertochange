@@ -5,6 +5,7 @@ date: 2026-10-03
 author: 'Stephen R. Covey'
 series: 'The 7 Habits of Highly Effective People'
 part: 3
+rating: 5
 takeaways:
   - 'Effectiveness comes from spending more time on important but not urgent work, the quiet tasks that prevent crises and build your future.'
   - 'Saying a calm, clear no to lesser things is what makes room for your real priorities.'

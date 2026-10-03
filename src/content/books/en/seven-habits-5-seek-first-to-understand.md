@@ -5,6 +5,7 @@ date: 2026-10-03
 author: 'Stephen R. Covey'
 series: 'The 7 Habits of Highly Effective People'
 part: 5
+rating: 5
 takeaways:
   - 'Most of us listen with the intent to reply, so we answer a problem we have not yet understood.'
   - 'Empathic listening means seeing the situation through the other person''s eyes and reflecting both their words and their feelings.'

@@ -5,6 +5,7 @@ date: 2026-10-03
 author: 'Stephen R. Covey'
 series: 'The 7 Habits of Highly Effective People'
 part: 6
+rating: 5
 takeaways:
   - 'Synergy means the whole is greater than the sum of its parts, and it grows out of trust and real understanding.'
   - 'Differences are not a threat to manage but the raw material for better solutions.'

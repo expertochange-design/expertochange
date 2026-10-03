@@ -5,6 +5,7 @@ date: 2026-10-03
 author: 'Stephen R. Covey'
 series: 'The 7 Habits of Highly Effective People'
 part: 7
+rating: 5
 takeaways:
   - 'You are the tool that does all your work, so regular renewal of that tool is one of the most important things you can do.'
   - 'Renewal has four dimensions (physical, mental, social and emotional, and spiritual) and they work best when you tend to all four in balance.'

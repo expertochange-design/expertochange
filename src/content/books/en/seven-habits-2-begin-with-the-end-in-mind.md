@@ -5,6 +5,7 @@ date: 2026-10-03
 author: 'Stephen R. Covey'
 series: 'The 7 Habits of Highly Effective People'
 part: 2
+rating: 5
 takeaways:
   - 'Everything is created twice, first in your mind and then in the world, so decide the first creation on purpose.'
   - 'Leadership asks whether you are climbing the right ladder before management asks how to climb it faster.'
