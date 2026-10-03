@@ -27,26 +27,23 @@ const sectionTitle = t(lang, `${section}.title` as UIKey);
       <a class="eyebrow back" data-pagefind-meta="section" data-pagefind-ignore href={href(`/${lang}/${section}/`)}>{sectionTitle}</a>
       <h1>{title}</h1>
       <p class="lead">{summary}</p>
-      <p class="meta byline" data-pagefind-ignore>
+      <div class="meta byline" data-pagefind-ignore>
         <time datetime={date.toISOString().slice(0, 10)}>{formatDate(lang, date)}</time>
         {hasTranslation && (
           <a href={href(`/${otherLang(lang)}${altPath}`)} lang={otherLang(lang)}>{t(lang, 'common.otherLang')}</a>
         )}
-      </p>
+        <PostActions lang={lang} title={title} />
+      </div>
     </header>
     <slot name="before" />
     <div class="prose">
       <slot />
     </div>
   </article>
-  <div class="after">
-    <PostActions lang={lang} title={title} />
-  </div>
 </Base>
 
 <style>
-  article,
-  .after {
+  article {
     max-width: var(--measure);
     margin-inline: auto;
   }
