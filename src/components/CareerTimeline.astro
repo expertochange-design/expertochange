@@ -37,6 +37,13 @@ const roles = [...career].reverse().map((role, i, all) => ({
         <h3>{role[lang].title}</h3>
         <p class="company">{role[lang].company}</p>
         <p>{role[lang].summary}</p>
+        {(role.videos?.length ?? 0) > 0 && (
+          <ul class="videos">
+            {role.videos!.map((v) => (
+              <li><a href={v.url}>{t(lang, 'career.watch')}: {v[lang]}</a></li>
+            ))}
+          </ul>
+        )}
       </li>
     </>
   ))}
@@ -108,7 +115,19 @@ const roles = [...career].reverse().map((role, i, all) => ({
   :global(html[lang='fa']) .company {
     font-style: normal;
   }
-  .role > p:last-child {
+  .role > p:last-of-type {
     margin-block: 0.5rem 0;
+  }
+  .videos {
+    list-style: none;
+    margin: 0.5rem 0 0;
+    padding: 0;
+  }
+  .videos a {
+    color: var(--accent);
+  }
+  .videos a::before {
+    content: '▶ ';
+    font-size: 0.8em;
   }
 </style>

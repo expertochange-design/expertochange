@@ -5,8 +5,8 @@ date: 2026-10-03
 timeline: true
 ---
 
-## Why I keep this timeline
+## An open map of my path
 
-A few sentences on what ties these roles together, and what you would tell someone at the start of the same path. I add a new entry here each time I take on a new role.
+Careers rarely run in straight lines, and the best answers are the ones you can see. This is my path, laid out in full, for anyone who wants to know how I got here, or where their own road might lead. Each chapter will soon have its own long-form videos with the whole story behind it.
 
 Years are counted from the start of my career: year 0 is my first job.
