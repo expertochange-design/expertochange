@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Rebuild daily so "most popular" picks up fresh visit counts.
+  schedule:
+    - cron: '17 3 * * *'
 
 permissions:
   contents: read
@@ -32,6 +35,8 @@ jobs:
         env:
           SITE_URL: ${{ steps.pages.outputs.origin }}
           BASE_PATH: ${{ steps.pages.outputs.base_path }}/
+          PUBLIC_GOATCOUNTER_CODE: ${{ vars.GOATCOUNTER_CODE }}
+          GOATCOUNTER_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
