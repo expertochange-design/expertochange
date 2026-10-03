@@ -1,6 +1,8 @@
 ---
 import { href, sitePath } from '../lib/url';
 import '@fontsource-variable/inter';
+import '@fontsource-variable/source-serif-4/opsz.css';
+import '@fontsource-variable/source-serif-4/opsz-italic.css';
 import '@fontsource/vazirmatn/400.css';
 import '@fontsource/vazirmatn/700.css';
 import '../styles/global.css';
@@ -45,17 +47,40 @@ const switchHref = href(`/${alt}${altPath ?? '/'}`);
       <slot />
     </main>
     <footer>
-      <p>© {new Intl.NumberFormat(lang === 'fa' ? 'fa-IR' : 'en-US', { useGrouping: false }).format(new Date().getFullYear())} expertochange · {t(lang, 'footer.rights')}</p>
+      <div class="inner">
+        <a class="mark" href={href(`/${lang}/`)} dir="ltr">expertochange</a>
+        <p class="meta">
+          © {new Intl.NumberFormat(lang === 'fa' ? 'fa-IR' : 'en-US', { useGrouping: false }).format(new Date().getFullYear())} · {t(lang, 'footer.rights')}
+        </p>
+      </div>
     </footer>
   </body>
 </html>
 
 <style>
   footer {
-    border-top: 1px solid var(--line);
-    padding: 1.5rem 1rem;
-    text-align: center;
-    color: var(--muted);
-    font-size: 0.85rem;
+    margin-block-start: 2rem;
+    padding-inline: var(--gutter);
+  }
+  .inner {
+    max-width: calc(var(--wide) - 2 * var(--gutter));
+    margin-inline: auto;
+    padding-block: 2.5rem 3rem;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 2rem;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .mark {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .inner p {
+    margin: 0;
   }
 </style>

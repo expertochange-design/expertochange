@@ -11,7 +11,9 @@ const entries = await getEntries('memories', lang);
 ---
 
 <Base lang={lang} title={t(lang, 'memories.title')} altPath="/memories/">
-  <h1>{t(lang, 'memories.title')}</h1>
-  <p class="lead">{t(lang, 'memories.lead')}</p>
+  <header class="page-head">
+    <h1>{t(lang, 'memories.title')}</h1>
+    <p class="lead">{t(lang, 'memories.lead')}</p>
+  </header>
   <EntryList lang={lang} section="memories" entries={entries} />
 </Base>

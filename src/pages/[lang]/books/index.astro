@@ -12,7 +12,9 @@ const stars = (n: number) => '★'.repeat(n) + '☆'.repeat(5 - n);
 ---
 
 <Base lang={lang} title={t(lang, 'books.title')} altPath="/books/">
-  <h1>{t(lang, 'books.title')}</h1>
-  <p class="lead">{t(lang, 'books.lead')}</p>
+  <header class="page-head">
+    <h1>{t(lang, 'books.title')}</h1>
+    <p class="lead">{t(lang, 'books.lead')}</p>
+  </header>
   <EntryList lang={lang} section="books" entries={entries} kicker={(e) => `${e.data.author} · ${stars(e.data.rating)}`} />
 </Base>
