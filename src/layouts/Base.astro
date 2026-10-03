@@ -33,6 +33,7 @@ const switchHref = href(`/${alt}${altPath ?? '/'}`);
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="icon" href={href('/favicon.svg')} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={href('/apple-touch-icon.png')} />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <link rel="alternate" hreflang={lang} href={new URL(href(`/${lang}${path}`), Astro.site)} />
     {altPath !== null && <link rel="alternate" hreflang={alt} href={new URL(href(`/${alt}${altPath}`), Astro.site)} />}
