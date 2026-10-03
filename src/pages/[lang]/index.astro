@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import SectionPhoto from '../../components/SectionPhoto.astro';
 import { href } from '../../lib/url';
 import { formatNumber, langs, t, type Lang } from '../../i18n/ui';
 
@@ -7,9 +8,9 @@ export const getStaticPaths = () => langs.map((lang) => ({ params: { lang } }));
 
 const lang = Astro.params.lang as Lang;
 const sections = [
-  { href: href(`/${lang}/portfolio/`), title: t(lang, 'portfolio.title'), text: t(lang, 'home.portfolio') },
-  { href: href(`/${lang}/books/`), title: t(lang, 'books.title'), text: t(lang, 'home.books') },
-  { href: href(`/${lang}/memories/`), title: t(lang, 'memories.title'), text: t(lang, 'home.memories') },
+  { key: 'portfolio' as const, href: href(`/${lang}/portfolio/`), title: t(lang, 'portfolio.title'), text: t(lang, 'home.portfolio') },
+  { key: 'books' as const, href: href(`/${lang}/books/`), title: t(lang, 'books.title'), text: t(lang, 'home.books') },
+  { key: 'memories' as const, href: href(`/${lang}/memories/`), title: t(lang, 'memories.title'), text: t(lang, 'home.memories') },
 ];
 const num = (i: number) => (lang === 'fa' ? formatNumber(lang, i + 1) : String(i + 1).padStart(2, '0'));
 ---
@@ -28,6 +29,7 @@ const num = (i: number) => (lang === 'fa' ? formatNumber(lang, i + 1) : String(i
             <h2>{s.title}</h2>
             <p>{s.text}</p>
           </span>
+          <SectionPhoto section={s.key} variant="thumb" />
         </a>
       </li>
     ))}
@@ -56,5 +58,24 @@ const num = (i: number) => (lang === 'fa' ? formatNumber(lang, i + 1) : String(i
   }
   .sections h2 {
     font-size: 1.75rem;
+  }
+  .sections .entry {
+    grid-template-columns: 9rem 1fr 14rem;
+    align-items: start;
+  }
+  .sections .entry :global(.soft-photo) {
+    transition: opacity 0.2s;
+  }
+  .sections .entry:hover :global(.soft-photo) {
+    opacity: 0.9;
+  }
+  @media (max-width: 640px) {
+    .sections .entry {
+      grid-template-columns: 1fr;
+    }
+    .sections .entry :global(.soft-photo) {
+      order: -1;
+      margin-block-end: 0.75rem;
+    }
   }
 </style>
