@@ -20,12 +20,12 @@ const sectionTitle = t(lang, `${section}.title` as UIKey);
 ---
 
 <Base lang={lang} title={title} description={summary} altPath={altPath}>
-  <article>
+  <article data-pagefind-body>
     <header class="article-head">
-      <a class="eyebrow back" href={href(`/${lang}/${section}/`)}>{sectionTitle}</a>
+      <a class="eyebrow back" data-pagefind-meta="section" data-pagefind-ignore href={href(`/${lang}/${section}/`)}>{sectionTitle}</a>
       <h1>{title}</h1>
       <p class="lead">{summary}</p>
-      <p class="meta byline">
+      <p class="meta byline" data-pagefind-ignore>
         <time datetime={date.toISOString().slice(0, 10)}>{formatDate(lang, date)}</time>
         {hasTranslation && (
           <a href={href(`/${otherLang(lang)}${altPath}`)} lang={otherLang(lang)}>{t(lang, 'common.otherLang')}</a>
