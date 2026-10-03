@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
+import portrait from '../../assets/contact-portrait.jpg';
 import { booking } from '../../lib/booking';
 import { formatNumber, langs, type Lang } from '../../i18n/ui';
 
@@ -11,6 +13,7 @@ const n = (x: number) => formatNumber(lang, x);
 const copy = {
   en: {
     title: 'Contact me',
+    portraitAlt: 'Portrait of the author in a tweed jacket at her desk, holding a pen',
     intro:
       'expertochange stands for expert exchange: a place to share what I have learned so it can be useful to someone else.',
     about:
@@ -38,6 +41,7 @@ const copy = {
   },
   fa: {
     title: 'تماس با من',
+    portraitAlt: 'پرتره نویسنده با کت توید پشت میز کار، با قلمی در دست',
     intro:
       'expertochange یعنی «تبادل تخصص»: جایی برای به اشتراک گذاشتن آنچه آموخته‌ام تا به کار کس دیگری بیاید.',
     about:
@@ -74,10 +78,13 @@ const options = [
 ---
 
 <Base lang={lang} title={copy.title} altPath="/contact/">
-  <header class="page-head prose">
-    <h1>{copy.title}</h1>
-    <p class="lead">{copy.intro}</p>
-    <p>{copy.about}</p>
+  <header class="page-head intro-grid">
+    <div class="prose">
+      <h1>{copy.title}</h1>
+      <p class="lead">{copy.intro}</p>
+      <p>{copy.about}</p>
+    </div>
+    <Image class="portrait" src={portrait} alt={copy.portraitAlt} widths={[280, 560]} sizes="(max-width: 720px) 60vw, 280px" />
   </header>
 
   <section class="book">
@@ -116,6 +123,26 @@ const options = [
 </Base>
 
 <style>
+  .intro-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 15rem;
+    gap: 2rem 3rem;
+    align-items: start;
+  }
+  .intro-grid :global(.portrait) {
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
+  }
+  @media (max-width: 720px) {
+    .intro-grid {
+      grid-template-columns: 1fr;
+    }
+    .intro-grid :global(.portrait) {
+      order: -1;
+      width: min(16rem, 70%);
+    }
+  }
   .page-head {
     margin-block-end: 3.5rem;
   }
