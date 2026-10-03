@@ -2,14 +2,27 @@
 import Base from '../../../layouts/Base.astro';
 import EntryList from '../../../components/EntryList.astro';
 import SectionPhoto from '../../../components/SectionPhoto.astro';
-import { langs, t, type Lang } from '../../../i18n/ui';
+import { formatNumber, langs, t, type Lang } from '../../../i18n/ui';
 import { getEntries } from '../../../lib/content';
 
 export const getStaticPaths = () => langs.map((lang) => ({ params: { lang } }));
 
 const lang = Astro.params.lang as Lang;
-const entries = await getEntries('books', lang);
-const stars = (n: number) => '★'.repeat(n) + '☆'.repeat(5 - n);
+const all = await getEntries('books', lang);
+// A series shows once, under its name, linking to its first part.
+const partsOf = (series: string) => all.filter((e) => e.data.series === series);
+const entries = all
+  .filter((e) => !e.data.series || partsOf(e.data.series).every((o) => (o.data.part ?? 0) >= (e.data.part ?? 0)))
+  .map((e) => (e.data.series ? { ...e, data: { ...e.data, title: e.data.series } } : e));
+const stars = (n?: number) => (n ? '★'.repeat(n) + '☆'.repeat(5 - n) : '');
+const kicker = (e: (typeof all)[number]) =>
+  [
+    e.data.author,
+    stars(e.data.rating),
+    e.data.series && `${formatNumber(lang, partsOf(e.data.series).length)} ${t(lang, 'books.parts')}`,
+  ]
+    .filter(Boolean)
+    .join(' · ');
 ---
 
 <Base lang={lang} title={t(lang, 'books.title')} altPath="/books/">
@@ -18,5 +31,5 @@ const stars = (n: number) => '★'.repeat(n) + '☆'.repeat(5 - n);
     <h1>{t(lang, 'books.title')}</h1>
     <p class="lead">{t(lang, 'books.lead')}</p>
   </header>
-  <EntryList lang={lang} section="books" entries={entries} kicker={(e) => `${e.data.author} · ${stars(e.data.rating)}`} rating={(e) => e.data.rating} />
+  <EntryList lang={lang} section="books" entries={entries} kicker={kicker} rating={(e) => e.data.rating ?? 0} />
 </Base>

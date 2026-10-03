@@ -26,9 +26,14 @@ const books = defineCollection({
   schema: z.object({
     ...base,
     author: z.string(),
-    rating: z.number().int().min(1).max(5),
+    // Optional: a note can go up before the book is rated.
+    rating: z.number().int().min(1).max(5).optional(),
     takeaways: z.array(z.string()).length(3),
     recommendedFor: z.string(),
+    // A book covered in several posts: the same series name on each, and part
+    // 0, 1, 2… for their order. The books list shows a series as one entry.
+    series: z.string().optional(),
+    part: z.number().int().min(0).optional(),
   }),
 });
 
