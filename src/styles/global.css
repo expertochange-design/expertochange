@@ -11,8 +11,8 @@
   --muted: #857d72;
   --rule: #ddd6c9;
   --rule-strong: #bfb6a6;
-  --accent: #7b2d26;
-  --accent-hover: #5c1f1a;
+  --accent: #0f5c4a;
+  --accent-hover: #0a4537;
 
   --measure: 38rem;
   --wide: 60rem;
@@ -34,8 +34,8 @@
     --muted: #958c7e;
     --rule: #332e26;
     --rule-strong: #4a4337;
-    --accent: #d39a83;
-    --accent-hover: #e8b6a2;
+    --accent: #7fc4ab;
+    --accent-hover: #a3d8c4;
     color-scheme: dark;
   }
 }
