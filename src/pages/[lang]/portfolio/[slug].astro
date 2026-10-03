@@ -1,5 +1,6 @@
 ---
 import { render } from 'astro:content';
+import { Image } from 'astro:assets';
 import Article from '../../../layouts/Article.astro';
 import CareerTimeline from '../../../components/CareerTimeline.astro';
 import { entryPaths } from '../../../lib/content';
@@ -15,7 +16,14 @@ const d = entry.data;
 
 <Article lang={lang} section="portfolio" slug={slug} title={d.title} summary={d.summary} date={d.date} hasTranslation={hasTranslation} image={d.image}>
   {d.timeline ? (
-    <CareerTimeline slot="before" lang={lang} />
+    <div slot="before">
+      {d.image && (
+        <figure class="portrait">
+          <Image src={d.image} alt={t(lang, 'career.portraitAlt')} widths={[360, 720]} sizes="(max-width: 600px) 60vw, 360px" />
+        </figure>
+      )}
+      <CareerTimeline lang={lang} />
+    </div>
   ) : (
     <dl slot="before" class="facts">
       {d.role && <div><dt class="meta">{t(lang, 'portfolio.role')}</dt><dd>{d.role}</dd></div>}
@@ -25,3 +33,16 @@ const d = entry.data;
   )}
   <Content />
 </Article>
+
+
+<style>
+  .portrait {
+    margin: 0 0 2.5rem;
+  }
+  .portrait img {
+    display: block;
+    width: min(100%, 22rem);
+    height: auto;
+    border-radius: 2px;
+  }
+</style>
