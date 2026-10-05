@@ -8,11 +8,14 @@
   --paper-raised: #fbf9f4;
   --ink: #1f1c18;
   --ink-soft: #4a453e;
-  --muted: #857d72;
+  --muted: #70685e;
   --rule: #ddd6c9;
   --rule-strong: #bfb6a6;
   --accent: #0f5c4a;
   --accent-hover: #0a4537;
+  /* Saffron: a warm second tone, used sparingly to invite action. */
+  --saffron: #eb8a1e;
+  --saffron-ink: #a34e00;
 
   --measure: 38rem;
   --wide: 60rem;
@@ -36,6 +39,8 @@
     --rule-strong: #4a4337;
     --accent: #7fc4ab;
     --accent-hover: #a3d8c4;
+    --saffron: #f29b38;
+    --saffron-ink: #f29b38;
     color-scheme: dark;
   }
 }
