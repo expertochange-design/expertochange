@@ -14,8 +14,8 @@
   --accent: #0f5c4a;
   --accent-hover: #0a4537;
   /* Saffron: a warm second tone, used sparingly to invite action. */
-  --saffron: #d9a21b;
-  --saffron-ink: #8a5a00;
+  --saffron: #eb8a1e;
+  --saffron-ink: #a34e00;
 
   --measure: 38rem;
   --wide: 60rem;
@@ -39,8 +39,8 @@
     --rule-strong: #4a4337;
     --accent: #7fc4ab;
     --accent-hover: #a3d8c4;
-    --saffron: #e3b453;
-    --saffron-ink: #e3b453;
+    --saffron: #f29b38;
+    --saffron-ink: #f29b38;
     color-scheme: dark;
   }
 }
