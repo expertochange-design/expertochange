@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
+import portrait from '../../assets/portfolio/career-portrait.jpg';
 import SectionPhoto from '../../components/SectionPhoto.astro';
 import { href } from '../../lib/url';
 import { formatNumber, langs, t, type Lang } from '../../i18n/ui';
@@ -12,13 +14,37 @@ const sections = [
   { key: 'books' as const, href: href(`/${lang}/books/`), title: t(lang, 'books.title'), text: t(lang, 'home.books') },
   { key: 'memories' as const, href: href(`/${lang}/memories/`), title: t(lang, 'memories.title'), text: t(lang, 'home.memories') },
 ];
+const heroCopy = {
+  en: {
+    eyebrow: 'expertochange · expert exchange',
+    contact: 'Contact me',
+    career: 'Read my career path',
+    portraitAlt: 'Portrait of the author in a dark blazer, smiling, resting her chin on her hand',
+  },
+  fa: {
+    eyebrow: 'expertochange · تبادل تخصص',
+    contact: 'تماس با من',
+    career: 'مسیر شغلی من را بخوانید',
+    portraitAlt: 'پرتره نویسنده با کت تیره، لبخندزنان و دست زیر چانه',
+  },
+}[lang];
 const num = (i: number) => (lang === 'fa' ? formatNumber(lang, i + 1) : String(i + 1).padStart(2, '0'));
 ---
 
 <Base lang={lang} altPath="/">
   <section class="hero">
-    <h1>{t(lang, 'site.tagline')}</h1>
-    <p class="lead">{t(lang, 'home.intro')}</p>
+    <div class="hero-text">
+      <p class="eyebrow rise">{heroCopy.eyebrow}</p>
+      <h1 class="rise">{t(lang, 'site.tagline')}</h1>
+      <p class="lead rise">{t(lang, 'home.intro')}</p>
+      <p class="actions rise">
+        <a class="primary" href={href(`/${lang}/contact/`)}>{heroCopy.contact}</a>
+        <a class="secondary" href={href(`/${lang}/portfolio/my-career-path/`)}>{heroCopy.career} <span aria-hidden="true">{lang === 'fa' ? '←' : '→'}</span></a>
+      </p>
+    </div>
+    <figure class="hero-portrait rise">
+      <Image src={portrait} alt={heroCopy.portraitAlt} widths={[300, 600]} sizes="(max-width: 720px) 60vw, 300px" loading="eager" />
+    </figure>
   </section>
   <ul class="entries sections">
     {sections.map((s, i) => (
@@ -38,8 +64,103 @@ const num = (i: number) => (lang === 'fa' ? formatNumber(lang, i + 1) : String(i
 
 <style>
   .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 17rem;
+    gap: 2.5rem 4rem;
+    align-items: center;
     padding-block: 1.5rem 4rem;
     border-bottom: 1px solid var(--rule);
+  }
+  .eyebrow {
+    margin-block-end: 1rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--saffron-ink);
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.75rem;
+    margin-block-start: 2rem;
+  }
+  .actions .primary {
+    padding: 0.7rem 1.4rem;
+    border-radius: 2px;
+    background: var(--accent);
+    color: var(--paper);
+    text-decoration: none;
+    transition: background-color 0.2s;
+  }
+  .actions .primary:hover {
+    background: var(--saffron-ink);
+    color: var(--paper);
+  }
+  .actions .secondary {
+    text-decoration: none;
+  }
+  .actions .secondary span {
+    display: inline-block;
+    transition: transform 0.2s;
+  }
+  .actions .secondary:hover span {
+    transform: translateX(0.25rem);
+  }
+  :global(html[dir='rtl']) .actions .secondary:hover span {
+    transform: translateX(-0.25rem);
+  }
+  /* Offset emerald hairline frame behind the portrait. */
+  .hero-portrait {
+    position: relative;
+    margin: 0 0.9rem 0.9rem 0;
+  }
+  :global(html[dir='rtl']) .hero-portrait {
+    margin: 0 0 0.9rem 0.9rem;
+  }
+  .hero-portrait::before {
+    content: '';
+    position: absolute;
+    inset: 0.9rem -0.9rem -0.9rem 0.9rem;
+    border: 1px solid var(--accent);
+    border-radius: 2px;
+  }
+  :global(html[dir='rtl']) .hero-portrait::before {
+    inset: 0.9rem 0.9rem -0.9rem -0.9rem;
+  }
+  .hero-portrait :global(img) {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    border-radius: 2px;
+  }
+  /* Gentle entrance, CSS only (no JavaScript). Opacity starts just above zero
+     so browsers still count the headline as painted right away. */
+  @media (prefers-reduced-motion: no-preference) {
+    .rise {
+      animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+    .hero h1.rise { animation-delay: 0.06s; }
+    .hero .lead.rise { animation-delay: 0.14s; }
+    .actions.rise { animation-delay: 0.22s; }
+    .hero-portrait.rise { animation-delay: 0.1s; }
+  }
+  @keyframes rise {
+    from {
+      opacity: 0.01;
+      transform: translateY(0.75rem);
+    }
+  }
+  @media (max-width: 720px) {
+    .hero {
+      grid-template-columns: 1fr;
+    }
+    .hero-portrait {
+      order: -1;
+      width: min(14rem, 62%);
+    }
   }
   .hero h1 {
     max-width: 18ch;
