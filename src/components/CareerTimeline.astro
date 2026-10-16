@@ -16,11 +16,11 @@ const period = (from: number, to?: number) => {
     : t(lang, 'career.years').replace('{from}', n(from)).replace('{to}', n(to));
 };
 
-// Newest first, so the current role is the first thing a reader sees,
+// Oldest first, so the path reads from the first job to today,
 // with a heading each time the stage (consulting, corporate) changes.
-const roles = [...career].reverse().map((role, i, all) => ({
+const roles = career.map((role, i, all) => ({
   role,
-  current: i === 0 && role.to === undefined,
+  current: i === all.length - 1 && role.to === undefined,
   heading: i === 0 || all[i - 1].stage !== role.stage,
 }));
 ---
