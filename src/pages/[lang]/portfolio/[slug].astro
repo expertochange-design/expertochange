@@ -17,6 +17,7 @@ const d = entry.data;
 <Article lang={lang} section="portfolio" slug={slug} title={d.title} summary={d.summary} date={d.date} hasTranslation={hasTranslation} image={d.image}>
   {d.timeline ? (
     <div slot="before">
+      <div class="prose intro"><Content /></div>
       {d.image && (
         <figure class="portrait">
           <Image src={d.image} alt={t(lang, 'career.portraitAlt')} widths={[360, 720]} sizes="(max-width: 600px) 60vw, 360px" />
@@ -31,11 +32,14 @@ const d = entry.data;
       {d.period && <div><dt class="meta">{t(lang, 'portfolio.period')}</dt><dd>{d.period}</dd></div>}
     </dl>
   )}
-  <Content />
+  {!d.timeline && <Content />}
 </Article>
 
 
 <style>
+  .intro {
+    margin-block-end: 2.5rem;
+  }
   .portrait {
     margin: 0 0 2.5rem;
   }
