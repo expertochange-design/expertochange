@@ -70,12 +70,12 @@ export const career: Role[] = [
     to: 9,
     en: {
       title: 'Head of SAP',
-      company: 'The largest hygiene-products manufacturer in Iran',
+      company: 'A hygiene-products manufacturer in Iran',
       summary: 'I crossed to the client side to rescue an SAP project left half-done under sanctions. With a hand-picked team and no big implementation partner, we took the group’s largest factory live on every core module in under five months.',
     },
     fa: {
       title: 'مدیر SAP',
-      company: 'بزرگ‌ترین تولیدکننده محصولات بهداشتی در ایران',
+      company: 'یک تولیدکننده محصولات بهداشتی در ایران',
       summary: 'به سمت کارفرما رفتم تا پروژه‌ای را نجات دهم که زیر تحریم نیمه‌کاره مانده بود. با تیمی دست‌چین‌شده و بدون شریک پیاده‌سازی بزرگ، بزرگ‌ترین کارخانه مجموعه را در کمتر از پنج ماه در همه ماژول‌های اصلی راه‌اندازی کردیم.',
     },
   },
@@ -85,12 +85,12 @@ export const career: Role[] = [
     to: 10,
     en: {
       title: 'Head of Applications',
-      company: 'The largest hygiene-products manufacturer in Iran',
+      company: 'A hygiene-products manufacturer in Iran',
       summary: 'Owning the whole application landscape, BI included, taught me the corporate game: suppliers, contracts, budgets and stakeholders across many layers. Technology was the easy part.',
     },
     fa: {
       title: 'مدیر نرم‌افزارهای سازمانی',
-      company: 'بزرگ‌ترین تولیدکننده محصولات بهداشتی در ایران',
+      company: 'یک تولیدکننده محصولات بهداشتی در ایران',
       summary: 'مسئولیت کل نرم‌افزارهای سازمان، از جمله هوش تجاری، بازی دنیای کارفرما را به من آموخت: تأمین‌کنندگان، قراردادها، بودجه و ذی‌نفعان در لایه‌های متعدد مدیریتی. فناوری بخش ساده ماجرا بود.',
     },
   },
