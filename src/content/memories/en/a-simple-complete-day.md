@@ -1,13 +1,15 @@
 ---
 title: 'A simple but complete day'
 summary: 'Our little finch’s birthday, and what “being enough” means when you lead both at work and at home.'
-image: ../../../assets/memories/birthday-2026.jpg
+image: ../../../assets/memories/birthday-2026-illustration.jpg
 date: 2026-07-16
 ---
 
 In an ideal world, this would be the hundred-and-something-th expertochange post. But the truth is, we don’t live in an ideal world.
 
-![A birthday at home: a cake with lit candles, a “Happy Birthday” balloon frame, and the family together on the sofa](../../../assets/memories/birthday-2026.jpg)
+![An illustration of a birthday at home: a cake with lit candles, a “Happy” balloon frame, and the family together on the sofa](../../../assets/memories/birthday-2026-illustration.jpg)
+
+<p class="caption">Illustration of a real moment</p>
 
 ## Today: a simple but complete day
 
