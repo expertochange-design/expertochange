@@ -210,6 +210,19 @@ html[lang='fa'] :is(.eyebrow, .meta) {
   font-size: 1.35rem;
 }
 
+/* A short note right under a picture in a post. */
+.prose .caption {
+  margin-block-start: -1.25rem;
+  font-size: 0.875rem;
+  font-style: italic;
+  color: var(--muted);
+  text-align: center;
+}
+
+html[lang='fa'] .prose .caption {
+  font-style: normal;
+}
+
 /* A page heading block, separated from the content by a fine rule. */
 .page-head {
   padding-block-end: 2.5rem;
