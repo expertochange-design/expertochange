@@ -1,0 +1,179 @@
+---
+import Base from '../../layouts/Base.astro';
+import { amounts, donations, MAX_EUR } from '../../lib/donations';
+import { formatNumber, langs, type Lang } from '../../i18n/ui';
+
+export const getStaticPaths = () => langs.map((lang) => ({ params: { lang } }));
+
+const lang = Astro.params.lang as Lang;
+const eur = (n: number) =>
+  new Intl.NumberFormat(lang === 'fa' ? 'fa-IR' : 'en-IE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
+
+const copy = {
+  en: {
+    title: 'Support expertochange',
+    intro: [
+      'Everything on expertochange is free, and it will always stay free.',
+      'If you have found something useful here and would like to give back, you are welcome to make a voluntary contribution. There is no expectation at all.',
+      'Contributions help keep the site running. Anything beyond that goes to the empowerment of children, students and women in Iran.',
+    ],
+    once: 'One-time',
+    onceNote: 'A single contribution.',
+    monthly: 'Monthly',
+    monthlyNote: 'A small, regular contribution. Cancel at any time.',
+    other: `Another amount, up to ${eur(MAX_EUR)}`,
+    perMonth: '/ month',
+    soon: 'Opening soon',
+    secure: 'Payments are handled securely by Stripe. Card details never reach this site.',
+    thanks: 'Thank you for reading, whether or not you contribute.',
+  },
+  fa: {
+    title: 'حمایت از expertochange',
+    intro: [
+      'همه محتوای expertochange رایگان است و همیشه رایگان خواهد ماند.',
+      'اگر اینجا چیز مفیدی پیدا کرده‌اید و دوست دارید سهمی داشته باشید، می‌توانید به‌صورت کاملاً داوطلبانه کمک کنید. هیچ انتظاری در کار نیست.',
+      'این کمک‌ها هزینه نگهداری سایت را پوشش می‌دهد و هر مبلغ اضافه صرف توانمندسازی کودکان، دانشجویان و زنان در ایران می‌شود.',
+    ],
+    once: 'یک‌باره',
+    onceNote: 'یک کمک یک‌باره.',
+    monthly: 'ماهانه',
+    monthlyNote: 'کمکی کوچک و منظم. هر زمان بخواهید می‌توانید لغوش کنید.',
+    other: `مبلغ دیگر، تا ${eur(MAX_EUR)}`,
+    perMonth: 'در ماه',
+    soon: 'به‌زودی',
+    secure: 'پرداخت به‌صورت امن از طریق Stripe انجام می‌شود و اطلاعات کارت به این سایت نمی‌رسد.',
+    thanks: 'از اینکه می‌خوانید سپاسگزارم، چه کمک کنید چه نکنید.',
+  },
+}[lang];
+
+const groups = [
+  { key: 'once', title: copy.once, note: copy.onceNote, links: donations.once, suffix: '', custom: donations.onceCustom },
+  { key: 'monthly', title: copy.monthly, note: copy.monthlyNote, links: donations.monthly, suffix: copy.perMonth, custom: null },
+] as const;
+---
+
+<Base lang={lang} title={copy.title} description={copy.intro[0]} altPath="/support/">
+  <article class="support">
+    <h1>{copy.title}</h1>
+    {copy.intro.map((p, i) => <p class={i === 0 ? 'lead' : undefined}>{p}</p>)}
+
+    <div class="groups">
+      {groups.map((g) => (
+        <section class="group" aria-labelledby={`g-${g.key}`}>
+          <h2 id={`g-${g.key}`} class="eyebrow">{g.title}</h2>
+          <p class="note">{g.note}</p>
+          <ul class="amounts">
+            {amounts.map((a) => {
+              const url = g.links[a];
+              return (
+                <li>
+                  {url ? (
+                    <a class="amount" href={url} rel="noopener" target="_blank">
+                      {eur(a)} {g.suffix && <span class="suffix">{g.suffix}</span>}
+                    </a>
+                  ) : (
+                    <span class="amount off" aria-disabled="true">
+                      {eur(a)} {g.suffix && <span class="suffix">{g.suffix}</span>}
+                    </span>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+          {g.custom !== null && (
+            g.custom ? (
+              <a class="other" href={g.custom} rel="noopener" target="_blank">{copy.other}</a>
+            ) : (
+              <span class="other off">{copy.other}</span>
+            )
+          )}
+        </section>
+      ))}
+    </div>
+
+    {!Object.values(donations.once).some(Boolean) && <p class="meta soon">{copy.soon}</p>}
+    <p class="meta secure">{copy.secure}</p>
+    <p class="thanks">{copy.thanks}</p>
+  </article>
+</Base>
+
+<style>
+  .support {
+    max-width: var(--measure);
+    margin-inline: auto;
+  }
+  .groups {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    margin-block: 3rem 2rem;
+    padding-block-start: 2rem;
+    border-top: 1px solid var(--rule);
+  }
+  .group h2 {
+    margin: 0 0 0.25rem;
+  }
+  .note {
+    margin: 0 0 1.25rem;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+  .amounts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+  .amount {
+    display: block;
+    padding: 0.7rem 0.5rem;
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+    text-align: center;
+    color: var(--ink);
+    text-decoration: none;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  a.amount:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--paper-raised);
+  }
+  .suffix {
+    color: var(--muted);
+    font-size: 0.85em;
+  }
+  .other {
+    display: inline-block;
+    margin-block-start: 1rem;
+    font-size: 0.95rem;
+  }
+  .off {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  span.other.off {
+    color: var(--ink-soft);
+  }
+  .soon {
+    color: var(--accent);
+  }
+  .secure {
+    margin-block-start: 1.5rem;
+  }
+  .thanks {
+    margin-block-start: 2.5rem;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+  :global(html[lang='fa']) .thanks {
+    font-style: normal;
+  }
+  @media (max-width: 640px) {
+    .groups {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
