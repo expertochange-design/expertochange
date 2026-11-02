@@ -32,11 +32,13 @@ const alt = otherLang(lang);
           {l.label}
         </a>
       ))}
+    </nav>
+    <div class="tools">
       <Search lang={lang} />
       <a class="switch" href={switchHref} hreflang={alt} lang={alt}>
         {languages[alt]}
       </a>
-    </nav>
+    </div>
   </div>
 </header>
 
@@ -47,13 +49,11 @@ const alt = otherLang(lang);
   .bar {
     max-width: calc(var(--wide) - 2 * var(--gutter));
     margin-inline: auto;
-    padding-block: 2rem 1.4rem;
-    border-bottom: 1px solid var(--ink);
+    padding-block: 1.5rem 1rem;
+    border-bottom: 1px solid var(--rule-strong);
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem 2rem;
+    gap: 0.5rem 1.5rem;
     align-items: center;
-    justify-content: space-between;
   }
   .brand {
     font-family: var(--serif);
@@ -66,6 +66,8 @@ const alt = otherLang(lang);
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
+    min-height: 44px;
+    margin-inline-end: auto;
   }
   .brand :global(.mark) {
     width: 2.6rem;
@@ -82,61 +84,94 @@ const alt = otherLang(lang);
       transform: none;
     }
   }
-  nav {
+  /* Sentence case at a readable size; every link is at least 44px tall to tap. */
+  nav,
+  .tools {
     display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.4rem 1.6rem;
+    align-items: center;
     font-family: var(--sans);
-    font-size: 0.74rem;
+    font-size: 0.85rem;
     font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
   }
-  :global(html[lang='fa']) nav {
+  nav {
+    gap: 0 0.25rem;
+  }
+  :global(html[lang='fa']) :is(nav, .tools) {
     font-family: var(--farsi);
     font-size: 0.95rem;
-    letter-spacing: 0;
   }
   nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-inline: 0.6rem;
     color: var(--ink-soft);
     text-decoration: none;
-    padding-block: 0.2rem;
-    border-bottom: 1px solid transparent;
+    white-space: nowrap;
+    border-radius: 2px;
+    box-shadow: inset 0 -2px 0 transparent;
   }
   nav a:hover {
     color: var(--ink);
   }
   nav a[aria-current='page'] {
     color: var(--ink);
-    border-bottom-color: var(--accent);
+    box-shadow: inset 0 -2px 0 var(--accent);
+  }
+  .tools {
+    gap: 0.25rem;
+    padding-inline-start: 0.75rem;
+    border-inline-start: 1px solid var(--rule-strong);
+  }
+  .tools :global(.search-open) {
+    width: 44px;
+    height: 44px;
   }
   .switch {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-inline: 0.6rem;
     color: var(--accent);
-    padding-inline-start: 1.6rem;
-    border-inline-start: 1px solid var(--rule-strong);
-    border-bottom: 0;
+    text-decoration: none;
   }
   .switch:lang(fa) {
     font-family: var(--farsi);
     font-size: 0.95rem;
-    letter-spacing: 0;
-    text-transform: none;
   }
   .switch:lang(en) {
     font-family: var(--sans);
-    font-size: 0.74rem;
-    letter-spacing: 0.14em;
+    font-size: 0.85rem;
   }
-  @media (max-width: 640px) {
+  /* Phone: logo and tools share the top row, sections fit on one row below. */
+  @media (max-width: 720px) {
     .bar {
-      padding-block: 1.5rem 1rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-areas: 'brand tools' 'nav nav';
+      padding-block: 0.75rem 0;
+      gap: 0.25rem 0.5rem;
+    }
+    .brand {
+      grid-area: brand;
+      font-size: 1.3rem;
+      gap: 0.45rem;
+    }
+    .brand :global(.mark) {
+      width: 2rem;
+      height: 2rem;
+    }
+    .tools {
+      grid-area: tools;
+      padding-inline-start: 0;
+      border: 0;
     }
     nav {
-      gap: 0.4rem 1.1rem;
-    }
-    .switch {
-      padding-inline-start: 1.1rem;
+      grid-area: nav;
+      justify-content: space-between;
+      margin-inline: -0.6rem;
+      overflow-x: auto;
+      scrollbar-width: none;
     }
   }
 </style>

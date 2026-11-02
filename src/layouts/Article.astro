@@ -57,10 +57,10 @@ const sectionTitle = t(lang, `${section}.title` as UIKey);
     text-decoration: none;
   }
   .back::before {
-    content: '← ';
+    content: '←';
   }
   :global(html[dir='rtl']) .back::before {
-    content: '→ ';
+    content: '→';
   }
   .article-head .lead {
     margin-block: 1.25rem 1.5rem;
@@ -68,10 +68,22 @@ const sectionTitle = t(lang, `${section}.title` as UIKey);
   .byline {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem 1.5rem;
+    align-items: center;
+    gap: 0 1.25rem;
     margin: 0;
   }
-  .byline a {
+  .byline a,
+  .byline :global(.share-open) {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     text-decoration: none;
+  }
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    min-height: 44px;
+    margin-block-end: 0.5rem;
   }
 </style>

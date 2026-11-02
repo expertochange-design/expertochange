@@ -83,6 +83,15 @@ main {
   padding: 3.5rem var(--gutter) 5rem;
 }
 
+@media (max-width: 720px) {
+  main {
+    padding-block-start: 1.75rem;
+  }
+  h1 {
+    font-size: clamp(1.9rem, 1.4rem + 2.2vw, 3.1rem);
+  }
+}
+
 ::selection {
   background: var(--accent);
   color: var(--paper);
@@ -131,7 +140,15 @@ h3 {
 html[lang='fa'] :is(h1, h2, h3) {
   font-weight: 700;
   letter-spacing: 0;
-  line-height: 1.5;
+  line-height: 1.45;
+}
+
+html[lang='fa'] h1 {
+  line-height: 1.35;
+}
+
+html[lang='fa'] .lead {
+  line-height: 1.85;
 }
 
 p {
@@ -171,11 +188,17 @@ html[lang='fa'] ol {
 .eyebrow,
 .meta {
   font-family: var(--sans);
-  font-size: 0.74rem;
+  font-size: 0.82rem;
   font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--muted);
+}
+
+/* Section names above a title stay as short small capitals, never running text. */
+.eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 html[lang='fa'] :is(.eyebrow, .meta) {
@@ -191,7 +214,7 @@ html[lang='fa'] :is(.eyebrow, .meta) {
 }
 
 .lead {
-  font-size: 1.25rem;
+  font-size: clamp(1.1rem, 1rem + 0.6vw, 1.25rem);
   line-height: 1.6;
   color: var(--ink-soft);
   max-width: var(--measure);

@@ -97,7 +97,14 @@ const num = (i: number) => (lang === 'fa' ? formatNumber(lang, i + 1) : String(i
     background: var(--saffron-ink);
     color: var(--paper);
   }
+  .actions .primary,
   .actions .secondary {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .actions .secondary {
+    gap: 0.35rem;
     text-decoration: none;
   }
   .actions .secondary span {
@@ -157,9 +164,24 @@ const num = (i: number) => (lang === 'fa' ? formatNumber(lang, i + 1) : String(i
     .hero {
       grid-template-columns: 1fr;
     }
+    .hero {
+      gap: 1.5rem;
+      padding-block: 0.5rem 2.5rem;
+    }
+    /* Face first, but small, so the headline and the button fit on the first screen. */
     .hero-portrait {
       order: -1;
-      width: min(14rem, 62%);
+      width: 7.5rem;
+      margin-block-end: 0.6rem;
+    }
+    .hero-portrait::before {
+      inset: 0.6rem -0.6rem -0.6rem 0.6rem;
+    }
+    :global(html[dir='rtl']) .hero-portrait::before {
+      inset: 0.6rem 0.6rem -0.6rem -0.6rem;
+    }
+    .actions {
+      margin-block-start: 1.5rem;
     }
   }
   .hero h1 {
@@ -190,13 +212,26 @@ const num = (i: number) => (lang === 'fa' ? formatNumber(lang, i + 1) : String(i
   .sections .entry:hover :global(.soft-photo) {
     opacity: 0.9;
   }
+  /* Phone: a small photo beside the words, so all three sections fit on about one screen. */
   @media (max-width: 640px) {
     .sections .entry {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr 6.5rem;
+      grid-template-areas: 'num photo' 'text photo';
+      gap: 0.1rem 1rem;
+      align-items: start;
+    }
+    .sections .entry > .meta {
+      grid-area: num;
+    }
+    .sections .entry > span:not(.meta) {
+      grid-area: text;
     }
     .sections .entry :global(.soft-photo) {
-      order: -1;
-      margin-block-end: 0.75rem;
+      grid-area: photo;
+      aspect-ratio: 1;
+    }
+    .sections h2 {
+      font-size: 1.4rem;
     }
   }
 </style>
