@@ -82,12 +82,12 @@ const options = [
     <div class="prose">
       <h1>{copy.title}</h1>
       <p class="lead">{copy.intro}</p>
-      <p>{copy.about}</p>
+      <p class="jump"><a href="#book">{copy.book} <span aria-hidden="true">↓</span></a></p>
     </div>
     <Image class="portrait" src={portrait} alt={copy.portraitAlt} widths={[280, 560]} sizes="(max-width: 720px) 60vw, 280px" />
   </header>
 
-  <section class="book">
+  <section class="book" id="book">
     <h2>{copy.book}</h2>
     <p class="lead">{copy.lead}</p>
   </section>
@@ -116,6 +116,8 @@ const options = [
     ))}
   </ul>
 
+  <p class="about prose">{copy.about}</p>
+
   <section class="write">
     <h2>{copy.write}</h2>
     <p><a href={`mailto:${email}`} dir="ltr">{email}</a></p>
@@ -140,11 +142,22 @@ const options = [
     }
     .intro-grid :global(.portrait) {
       order: -1;
-      width: min(16rem, 70%);
+      width: 7.5rem;
     }
   }
   .page-head {
-    margin-block-end: 3.5rem;
+    margin-block-end: 3rem;
+  }
+  .jump a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 44px;
+    text-decoration: none;
+  }
+  .about {
+    margin-block: 3.5rem 0;
+    color: var(--ink-soft);
   }
   .book {
     margin-block-end: 2rem;
@@ -204,7 +217,10 @@ const options = [
   .cta {
     margin-block-start: auto;
     align-self: flex-start;
-    padding: 0.7rem 1.3rem;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.5rem 1.3rem;
     border: 1px solid var(--accent);
     border-radius: 2px;
     background: var(--accent);

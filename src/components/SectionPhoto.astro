@@ -55,8 +55,8 @@ const sizes = variant === 'banner' ? '(max-width: 960px) 100vw, 960px' : '(max-w
     aspect-ratio: 4 / 3;
   }
   .banner {
-    aspect-ratio: 21 / 8;
-    margin-block-end: 2.5rem;
+    aspect-ratio: 4 / 1;
+    margin-block-end: 2rem;
   }
   @media (prefers-color-scheme: dark) {
     .soft-photo :global(img) {
@@ -68,7 +68,8 @@ const sizes = variant === 'banner' ? '(max-width: 960px) 100vw, 960px' : '(max-w
   }
   @media (max-width: 640px) {
     .banner {
-      aspect-ratio: 3 / 2;
+      aspect-ratio: 5 / 2;
+      margin-block-end: 1.5rem;
     }
   }
 </style>
