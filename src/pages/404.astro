@@ -1,0 +1,62 @@
+---
+// Shown by GitHub Pages for any address that does not exist.
+// Farsi first (the default language), with an English line for everyone else.
+import Base from '../layouts/Base.astro';
+import { href } from '../lib/url';
+---
+
+<Base lang="fa" title="صفحه پیدا نشد" altPath={null} notFound>
+  <section class="lost">
+    <p class="code" aria-hidden="true">۴۰۴</p>
+    <h1>این صفحه پیدا نشد.</h1>
+    <p class="lead">شاید نشانی جابه‌جا شده یا اشتباه نوشته شده است. از صفحهٔ اصلی شروع کنید، یا با جستجوی بالای صفحه پیدایش کنید.</p>
+    <p class="actions">
+      <a class="button" href={href('/fa/')}>صفحهٔ اصلی</a>
+    </p>
+    <div class="en" lang="en" dir="ltr">
+      <p class="lead">This page could not be found. It may have moved, or the address may have a typo.</p>
+      <p><a href={href('/en/')}>Go to the English home page →</a></p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .lost {
+    max-width: var(--measure);
+    padding-block: 2rem 1rem;
+  }
+  .code {
+    margin: 0 0 0.5rem;
+    font-size: 4rem;
+    line-height: 1;
+    color: var(--accent);
+  }
+  .actions {
+    margin-block: 2rem 3rem;
+  }
+  .button {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.7rem 1.4rem;
+    border-radius: 2px;
+    background: var(--accent);
+    color: var(--paper);
+    text-decoration: none;
+  }
+  .button:hover {
+    background: var(--saffron-ink);
+    color: var(--paper);
+  }
+  .en {
+    padding-block-start: 2rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--serif);
+    line-height: 1.7;
+    text-align: start;
+  }
+  .en .lead {
+    margin-block-start: 0;
+    line-height: 1.6;
+  }
+</style>

@@ -26,7 +26,7 @@ const d = entry.data;
       <CareerTimeline lang={lang} />
     </div>
   ) : (
-    <dl slot="before" class="facts">
+    <dl slot="before" class="facts" data-pagefind-ignore>
       {d.role && <div><dt class="meta">{t(lang, 'portfolio.role')}</dt><dd>{d.role}</dd></div>}
       {d.organization && <div><dt class="meta">{t(lang, 'portfolio.organization')}</dt><dd>{d.organization}</dd></div>}
       {d.period && <div><dt class="meta">{t(lang, 'portfolio.period')}</dt><dd>{d.period}</dd></div>}
@@ -45,7 +45,7 @@ const d = entry.data;
   }
   .portrait img {
     display: block;
-    width: min(100%, 22rem);
+    width: min(64%, 20rem);
     height: auto;
     border-radius: 2px;
   }
