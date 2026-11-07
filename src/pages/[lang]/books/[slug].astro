@@ -26,7 +26,7 @@ const link = (e: (typeof parts)[number]) => href(`/${lang}/books/${slugOf(e.id)}
 
 <Article lang={lang} section="books" slug={slug} title={d.title} summary={d.summary} date={d.date} hasTranslation={hasTranslation} image={d.image}>
   <div slot="before">
-    <dl class="facts">
+    <dl class="facts" data-pagefind-ignore>
       <div><dt class="meta">{t(lang, 'books.author')}</dt><dd>{d.author}</dd></div>
       {d.rating && (
         <div>
@@ -45,8 +45,10 @@ const link = (e: (typeof parts)[number]) => href(`/${lang}/books/${slugOf(e.id)}
         <ol>
           {parts.map((e, i) => (
             <li>
-              {i === here ? <span aria-current="page">{short(e.data.title)}</span> : <a href={link(e)}>{short(e.data.title)}</a>}
-              {e.data.comingSoon && <span class="meta soon-tag">{t(lang, 'books.comingSoon')}</span>}
+              <span class="part">
+                {i === here ? <span aria-current="page">{short(e.data.title)}</span> : <a href={link(e)}>{short(e.data.title)}</a>}
+                {e.data.comingSoon && <span class="meta soon-tag">{t(lang, 'books.comingSoon')}</span>}
+              </span>
             </li>
           ))}
         </ol>
@@ -98,7 +100,9 @@ const link = (e: (typeof parts)[number]) => href(`/${lang}/books/${slugOf(e.id)}
     color: var(--saffron-ink);
   }
   .soon-tag {
-    margin-inline-start: 0.5rem;
+    flex: none;
+    white-space: nowrap;
+    padding-block-start: 0.2rem;
     font-size: 0.75rem;
     color: var(--saffron-ink);
   }
@@ -112,6 +116,13 @@ const link = (e: (typeof parts)[number]) => href(`/${lang}/books/${slugOf(e.id)}
   }
   .series li {
     padding-block: 0.15rem;
+  }
+  /* Title on the start side, the "Coming soon" tag on the end side. */
+  .part {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: baseline;
   }
   .series a {
     text-decoration: none;

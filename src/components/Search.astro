@@ -146,6 +146,15 @@ const { lang } = Astro.props;
   .search-dialog::backdrop {
     background: rgb(31 28 24 / 0.25);
   }
+  /* On the dark page a light scrim barely shows: dim more so the panel stands out. */
+  @media (prefers-color-scheme: dark) {
+    .search-dialog {
+      box-shadow: 0 1.5rem 3rem rgb(0 0 0 / 0.5);
+    }
+    .search-dialog::backdrop {
+      background: rgb(0 0 0 / 0.6);
+    }
+  }
   .search-form {
     display: flex;
     align-items: center;
