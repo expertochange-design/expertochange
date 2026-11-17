@@ -19,6 +19,7 @@ const parts = d.series
   : [];
 const here = parts.findIndex((e) => slugOf(e.id) === slug);
 const next = here >= 0 ? parts[here + 1] : undefined;
+const prev = here > 0 ? parts[here - 1] : undefined;
 // "The 7 Habits · Habit 1: Be Proactive" reads as "Habit 1: Be Proactive" in the list.
 const short = (title: string) => title.split(' · ').slice(-1)[0];
 const link = (e: (typeof parts)[number]) => href(`/${lang}/books/${slugOf(e.id)}/`);
@@ -66,10 +67,21 @@ const link = (e: (typeof parts)[number]) => href(`/${lang}/books/${slugOf(e.id)}
     )}
   </div>
   <Content />
-  {next && (
-    <p class="next" data-pagefind-ignore>
-      <a href={link(next)}>{next.data.title}</a>
-    </p>
+  {(prev || next) && (
+    <nav class="pager" aria-label={t(lang, 'books.series')} data-pagefind-ignore>
+      {prev && (
+        <a class="prev" href={link(prev)} rel="prev">
+          <span class="meta">{t(lang, 'books.previous')}</span>
+          <span>{short(prev.data.title)}</span>
+        </a>
+      )}
+      {next && (
+        <a class="next" href={link(next)} rel="next">
+          <span class="meta">{t(lang, 'books.next')}</span>
+          <span>{short(next.data.title)}</span>
+        </a>
+      )}
+    </nav>
   )}
 </Article>
 
@@ -130,17 +142,38 @@ const link = (e: (typeof parts)[number]) => href(`/${lang}/books/${slugOf(e.id)}
   .series [aria-current] {
     font-weight: 600;
   }
-  .next {
+  /* Previous part on the start side, next part on the end side. */
+  .pager {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    justify-content: space-between;
     margin-block-start: 3rem;
-    text-align: end;
+    padding-block-start: 1.25rem;
+    border-top: 1px solid var(--rule);
   }
-  .next a {
+  .pager a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-height: 44px;
+    max-width: 22rem;
     text-decoration: none;
   }
-  .next a::after {
+  .pager .next {
+    margin-inline-start: auto;
+    text-align: end;
+  }
+  .prev .meta::before {
+    content: '← ';
+  }
+  .next .meta::after {
     content: ' →';
   }
-  :global(html[dir='rtl']) .next a::after {
+  :global(html[dir='rtl']) .prev .meta::before {
+    content: '→ ';
+  }
+  :global(html[dir='rtl']) .next .meta::after {
     content: ' ←';
   }
   .takeaways,
