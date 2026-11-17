@@ -9,7 +9,7 @@ import '@fontsource/vazirmatn/700.css';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import LogoMark from '../components/LogoMark.astro';
-import { dir, langs, otherLang, t, type Lang } from '../i18n/ui';
+import { dir, languages, langs, otherLang, t, type Lang } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
@@ -49,6 +49,7 @@ const goatcounter = import.meta.env.PUBLIC_GOATCOUNTER_CODE;
     <meta name="description" content={description} />
     <link rel="icon" href={href('/favicon.svg')} type="image/svg+xml" />
     <link rel="apple-touch-icon" href={href('/apple-touch-icon.png')} />
+    <link rel="alternate" type="application/rss+xml" title={`${t(lang, 'site.name')} (${languages[lang]})`} href={href(`/${lang}/rss.xml`)} />
     {notFound ? <meta name="robots" content="noindex" /> : (
       <>
         <link rel="canonical" href={pageUrl} />
@@ -84,6 +85,7 @@ const goatcounter = import.meta.env.PUBLIC_GOATCOUNTER_CODE;
           <span>expertochange<sup class="tm">™</sup></span>
         </a>
         <p class="meta">
+          <a class="rss" href={href(`/${lang}/rss.xml`)}>{t(lang, 'footer.rss')}</a> ·
           © {new Intl.NumberFormat(lang === 'fa' ? 'fa-IR' : 'en-US', { useGrouping: false }).format(new Date().getFullYear())} · {t(lang, 'footer.rights')}
         </p>
       </div>
@@ -132,5 +134,8 @@ const goatcounter = import.meta.env.PUBLIC_GOATCOUNTER_CODE;
   }
   .inner p {
     margin: 0;
+  }
+  .rss {
+    color: inherit;
   }
 </style>
